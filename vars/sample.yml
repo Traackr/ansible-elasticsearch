@@ -21,25 +21,18 @@
 # elasticsearch_plugin_dir: /usr/share/elasticsearch/plugins
 # elasticsearch_use_gc_logging: false
 # elasticsearch_timezone: "America/New_York"
-# elasticsearch_cluster:
-#   name: elasticsearch-ansible
-# elasticsearch_node:
-#   name: elasticsearch-ansible-node
-#   max_local_storage_nodes: 1
-# elasticsearch_index:
-#   mapper_dynamic: "true"
-# elasticsearch_memory:
-#   bootstrap_mlockall: "true"
-# elasticsearch_gateway:
-#   type: local
-#   recover_after_nodes: 1
-#   recover_after_time: 2m
-#   expected_nodes: 1
-# elasticsearch_discovery:
-#   zen_minimum_master_nodes: 1
-#   zen_ping_timeout: 30s
-#   zen_ping_multicast_enabled: "true"
-# elasticsearch_misc:
-#   auto_create_index: "true"
-#   query_bool_max_clause_count: 4096
-#   disable_delete_all_indices: "true"
+# elasticsearch_cluster_name: elasticsearch-ansible
+# elasticsearch_node_name: elasticsearch-ansible-node
+# elasticsearch_node_max_local_storage_nodes: 1
+# elasticsearch_index_mapper_dynamic: "true"
+# elasticsearch_memory_bootstrap_mlockall: "true"
+# elasticsearch_gateway_type: local
+# elasticsearch_gateway_recover_after_nodes: 1
+# elasticsearch_gateway_recover_after_time: 2m
+# elasticsearch_gateway_expected_nodes: 1
+# elasticsearch_discovery_zen_minimum_master_nodes: 1
+# elasticsearch_discovery_zen_ping_timeout: 30s
+# elasticsearch_discovery_zen_ping_multicast_enabled: "true"
+# elasticsearch_misc_auto_create_index: "true"
+# elasticsearch_misc_query_bool_max_clause_count: 4096
+# elasticsearch_misc_disable_delete_all_indices: "true"

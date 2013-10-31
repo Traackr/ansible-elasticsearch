@@ -25,8 +25,8 @@
 # multiple clusters on the same network, make sure you're using unique names.
 #
 # cluster.name: elasticsearch
-{% if elasticsearch_cluster is defined and elasticsearch_cluster.name is defined %}
-cluster.name: {{ elasticsearch_cluster.name }}
+{% if elasticsearch_cluster_name is defined %}
+cluster.name: {{ elasticsearch_cluster_name }}
 {% endif %}
 
 #################################### Node #####################################
@@ -35,8 +35,8 @@ cluster.name: {{ elasticsearch_cluster.name }}
 # from configuring them manually. You can tie this node to a specific name:
 #
 # node.name: "Franz Kafka"
-{% if elasticsearch_node is defined and elasticsearch_node.name is defined %}
-node.name: {{ elasticsearch_node.name }}
+{% if elasticsearch_node_name is defined %}
+node.name: {{ elasticsearch_node_name }}
 {% endif %}
 
 # Every node can be configured to allow or deny being eligible as the master,
@@ -45,15 +45,15 @@ node.name: {{ elasticsearch_node.name }}
 # Allow this node to be eligible as a master node (enabled by default):
 #
 # node.master: true
-{% if elasticsearch_node is defined and elasticsearch_node.master is defined %}
-node.master: {{ elasticsearch_node.master }}
+{% if elasticsearch_node_master is defined %}
+node.master: {{ elasticsearch_node_master }}
 {% endif %}
 #
 # Allow this node to store data (enabled by default):
 #
 # node.data: true
-{% if elasticsearch_node is defined and elasticsearch_node.data is defined %}
-node.data: {{ elasticsearch_node.data }}
+{% if elasticsearch_node_data is defined %}
+node.data: {{ elasticsearch_node_data }}
 {% endif %}
 
 # You can exploit these settings to design advanced cluster topologies.
@@ -87,15 +87,15 @@ node.data: {{ elasticsearch_node.data }}
 # is a simple key value pair, similar to node.key: value, here is an example:
 #
 # node.rack: rack314
-{% if elasticsearch_node is defined and elasticsearch_node.rack is defined %}
-node.rack: {{ elasticsearch_node.rack }}
+{% if elasticsearch_node_rack is defined %}
+node.rack: {{ elasticsearch_node_rack }}
 {% endif %}
 
 # By default, multiple nodes are allowed to start from the same installation location
 # to disable it, set the following:
 # node.max_local_storage_nodes: 1
-{% if elasticsearch_node is defined and elasticsearch_node.max_local_storage_nodes is defined %}
-node.max_local_storage_nodes: {{ elasticsearch_node.max_local_storage_nodes }}
+{% if elasticsearch_node_max_local_storage_nodes is defined %}
+node.max_local_storage_nodes: {{ elasticsearch_node_max_local_storage_nodes }}
 {% endif %}
 
 #################################### Index ####################################
@@ -114,14 +114,14 @@ node.max_local_storage_nodes: {{ elasticsearch_node.max_local_storage_nodes }}
 # Set the number of shards (splits) of an index (5 by default):
 #
 # index.number_of_shards: 5
-{% if elasticsearch_index is defined and elasticsearch_index.number_of_shards is defined %}
-index.number_of_shards: {{ elasticsearch_index.number_of_shards }}
+{% if elasticsearch_index_number_of_shards is defined %}
+index.number_of_shards: {{ elasticsearch_index_number_of_shards }}
 {% endif %}
 
 # Set the number of replicas (additional copies) of an index (1 by default):
 #
 # index.number_of_replicas: 1
-{% if elasticsearch_index is defined and elasticsearch_index.number_of_replicas is defined %}
+{% if elasticsearch_index_number_of_replicas is defined %}
 index.number_of_replicas: {{ elasticsearch_number_of_replicas }}
 {% endif %}
 
@@ -152,8 +152,8 @@ index.number_of_replicas: {{ elasticsearch_number_of_replicas }}
 # Use the Index Status API (<http://localhost:9200/A/_status>) to inspect
 # the index status.
 
-{% if elasticsearch_index is defined and elasticsearch_index.mapper_dynamic is defined %}
-index.mapper_dynamic: {{ elasticsearch_index.mapper_dynamic }}
+{% if elasticsearch_index_mapper_dynamic is defined %}
+index.mapper_dynamic: {{ elasticsearch_index_mapper_dynamic }}
 {% endif %}
 
 #################################### Paths ####################################
@@ -214,8 +214,8 @@ path.plugins: {{ elasticsearch_plugin_dir }}
 # Set this property to true to lock the memory:
 #
 #
-{% if elasticsearch_memory is defined and elasticsearch_memory.bootstrap_mlockall is defined %}
-bootstrap.mlockall: {{ elasticsearch_memory.bootstrap_mlockall }}
+{% if elasticsearch_memory_bootstrap_mlockall is defined %}
+bootstrap.mlockall: {{ elasticsearch_memory_bootstrap_mlockall }}
 {% endif %}
 
 # Make sure that the ES_MIN_MEM and ES_MAX_MEM environment variables are set
@@ -236,58 +236,58 @@ bootstrap.mlockall: {{ elasticsearch_memory.bootstrap_mlockall }}
 # Set the bind address specifically (IPv4 or IPv6):
 #
 # network.bind_host: 192.168.0.1
-{% if elasticsearch_network is defined and elasticsearch_network.bind_host is defined %}
-network.bind_host: {{ elasticsearch_network.bind_host }}
+{% if elasticsearch_network_bind_host is defined %}
+network.bind_host: {{ elasticsearch_network_bind_host }}
 {% endif %}
 
 # Set the address other nodes will use to communicate with this node. If not
 # set, it is automatically derived. It must point to an actual IP address.
 #
 # network.publish_host: 192.168.0.1
-{% if elasticsearch_network is defined and elasticsearch_network.publish_host is defined %}
-network.publish_host: {{ elasticsearch_network.publish_host }}
+{% if elasticsearch_network_publish_host is defined %}
+network.publish_host: {{ elasticsearch_network_publish_host }}
 {% endif %}
 
 # Set both 'bind_host' and 'publish_host':
 #
 # network.host: 192.168.0.1
-{% if elasticsearch_network is defined and elasticsearch_network.host is defined %}
-network.host: {{ elasticsearch_network.host }}
+{% if elasticsearch_network_host is defined %}
+network.host: {{ elasticsearch_network_host }}
 {% endif %}
 
 # Set a custom port for the node to node communication (9300 by default):
 #
 # transport.tcp.port: 9300
-{% if elasticsearch_network is defined and elasticsearch_network.transport_tcp_port is defined %}
-transport.tcp.port: {{ elasticsearch_network.transport_tcp_port }}
+{% if elasticsearch_network_transport_tcp_port is defined %}
+transport.tcp.port: {{ elasticsearch_network_transport_tcp_port }}
 {% endif %}
 
 # Enable compression for all communication between nodes (disabled by default):
 #
 # transport.tcp.compress: true
-{% if elasticsearch_network is defined and elasticsearch_network.transport_tcp_compress is defined %}
-transport.tcp.compress: {{ elasticsearch_network.transport_tcp_compress }}
+{% if elasticsearch_network_transport_tcp_compress is defined %}
+transport.tcp.compress: {{ elasticsearch_network_transport_tcp_compress }}
 {% endif %}
 
 # Set a custom port to listen for HTTP traffic:
 #
 # http.port: 9200
-{% if elasticsearch_network is defined and elasticsearch_network.http_port is defined %}
-http.port: {{ elasticsearch_network.http_port }}
+{% if elasticsearch_network_http_port is defined %}
+http.port: {{ elasticsearch_network_http_port }}
 {% endif %}
 
 # Set a custom allowed content length:
 #
 # http.max_content_length: 100mb
-{% if elasticsearch_network is defined and elasticsearch_network.http_max_content_lengtht is defined %}
-http.max_content_length: {{ elasticsearch_network.http_max_content_lengtht }}
+{% if elasticsearch_network_http_max_content_lengtht is defined %}
+http.max_content_length: {{ elasticsearch_network_http_max_content_lengtht }}
 {% endif %}
 
 # Disable HTTP completely:
 #
 # http.enabled: false
-{% if elasticsearch_network is defined and elasticsearch_network.http_enabled is defined %}
-http.enabled: {{ elasticsearch_network.http_enabled }}
+{% if elasticsearch_network_http_enabled is defined %}
+http.enabled: {{ elasticsearch_network_http_enabled }}
 {% endif %}
 
 ################################### Gateway ###################################
@@ -303,8 +303,8 @@ http.enabled: {{ elasticsearch_network.http_enabled }}
 # The default gateway type is the "local" gateway (recommended):
 #
 # gateway.type: local
-{% if elasticsearch_gateway is defined and elasticsearch_gateway.type is defined %}
-gateway.type: {{ elasticsearch_gateway.type }}
+{% if elasticsearch_gateway_type is defined %}
+gateway.type: {{ elasticsearch_gateway_type }}
 {% endif %}
 
 # Settings below control how and when to start the initial recovery process on
@@ -314,16 +314,16 @@ gateway.type: {{ elasticsearch_gateway.type }}
 # Allow recovery process after N nodes in a cluster are up:
 #
 # gateway.recover_after_nodes: 1
-{% if elasticsearch_gateway is defined and elasticsearch_gateway.recover_after_nodes is defined %}
-gateway.recover_after_nodes: {{ elasticsearch_gateway.recover_after_nodes }}
+{% if elasticsearch_gateway_recover_after_nodes is defined %}
+gateway.recover_after_nodes: {{ elasticsearch_gateway_recover_after_nodes }}
 {% endif %}
 
 # Set the timeout to initiate the recovery process, once the N nodes
 # from previous setting are up (accepts time value):
 #
 # gateway.recover_after_time: 5m
-{% if elasticsearch_gateway is defined and elasticsearch_gateway.recover_after_time is defined %}
-gateway.recover_after_time: {{ elasticsearch_gateway.recover_after_time }}
+{% if elasticsearch_gateway_recover_after_time is defined %}
+gateway.recover_after_time: {{ elasticsearch_gateway_recover_after_time }}
 {% endif %}
 
 # Set how many nodes are expected in this cluster. Once these N nodes
@@ -331,8 +331,8 @@ gateway.recover_after_time: {{ elasticsearch_gateway.recover_after_time }}
 # (without waiting for recover_after_time to expire):
 #
 # gateway.expected_nodes: 2
-{% if elasticsearch_gateway is defined and elasticsearch_gateway.expected_nodes is defined %}
-gateway.expected_nodes: {{ elasticsearch_gateway.expected_nodes }}
+{% if elasticsearch_gateway_expected_nodes is defined %}
+gateway.expected_nodes: {{ elasticsearch_gateway_expected_nodes }}
 {% endif %}
 
 ############################# Recovery Throttling #############################
@@ -346,31 +346,31 @@ gateway.expected_nodes: {{ elasticsearch_gateway.expected_nodes }}
 # 1. During the initial recovery
 #
 # cluster.routing.allocation.node_initial_primaries_recoveries: 4
-{% if elasticsearch_recovery is defined and elasticsearch_recovery.node_initial_primaries_recoveries is defined %}
-cluster.routing.allocation.node_initial_primaries_recoveries: {{ elasticsearch_recovery.node_initial_primaries_recoveries }}
+{% if elasticsearch_recovery_node_initial_primaries_recoveries is defined %}
+cluster.routing.allocation.node_initial_primaries_recoveries: {{ elasticsearch_recovery_node_initial_primaries_recoveries }}
 {% endif %}
 
 #
 # 2. During adding/removing nodes, rebalancing, etc
 #
 # cluster.routing.allocation.node_concurrent_recoveries: 2
-{% if elasticsearch_recovery is defined and elasticsearch_recovery.node_concurrent_recoveries is defined %}
-cluster.routing.allocation.node_concurrent_recoveries: {{ elasticsearch_recovery.node_concurrent_recoveries }}
+{% if elasticsearch_recovery_node_concurrent_recoveries is defined %}
+cluster.routing.allocation.node_concurrent_recoveries: {{ elasticsearch_recovery_node_concurrent_recoveries }}
 {% endif %}
 
 # Set to throttle throughput when recovering (eg. 100mb, by default unlimited):
 #
 # indices.recovery.max_size_per_sec: 0
-{% if elasticsearch_recovery is defined and elasticsearch_recovery.max_size_per_sec is defined %}
-indices.recovery.max_size_per_sec: {{ elasticsearch_recovery.max_size_per_sec }}
+{% if elasticsearch_recovery_max_size_per_sec is defined %}
+indices.recovery.max_size_per_sec: {{ elasticsearch_recovery_max_size_per_sec }}
 {% endif %}
 
 # Set to limit the number of open concurrent streams when
 # recovering a shard from a peer:
 #
 # indices.recovery.concurrent_streams: 5
-{% if elasticsearch_recovery is defined and elasticsearch_recovery.concurrent_streams is defined %}
-indices.recovery.concurrent_streams: {{ elasticsearch_recovery.concurrent_streams }}
+{% if elasticsearch_recovery_concurrent_streams is defined %}
+indices.recovery.concurrent_streams: {{ elasticsearch_recovery_concurrent_streams }}
 {% endif %}
 
 
@@ -384,8 +384,8 @@ indices.recovery.concurrent_streams: {{ elasticsearch_recovery.concurrent_stream
 # for large clusters (>3 nodes):
 #
 # discovery.zen.minimum_master_nodes: 1
-{% if elasticsearch_discovery is defined and elasticsearch_discovery.zen_minimum_master_nodes is defined %}
-discovery.zen.minimum_master_nodes: {{ elasticsearch_discovery.zen_minimum_master_nodes }}
+{% if elasticsearch_discovery_zen_minimum_master_nodes is defined %}
+discovery.zen.minimum_master_nodes: {{ elasticsearch_discovery_zen_minimum_master_nodes }}
 {% endif %}
 
 # Set the time to wait for ping responses from other nodes when discovering.
@@ -393,8 +393,8 @@ discovery.zen.minimum_master_nodes: {{ elasticsearch_discovery.zen_minimum_maste
 # to minimize discovery failures:
 #
 # discovery.zen.ping.timeout: 3s
-{% if elasticsearch_discovery is defined and elasticsearch_discovery.zen_ping_timeout is defined %}
-discovery.zen.ping.timeout: {{ elasticsearch_discovery.zen_ping_timeout }}
+{% if elasticsearch_discovery_zen_ping_timeout is defined %}
+discovery.zen.ping.timeout: {{ elasticsearch_discovery_zen_ping_timeout }}
 {% endif %}
 
 # See <http://elasticsearch.org/guide/reference/modules/discovery/zen.html>
@@ -407,8 +407,8 @@ discovery.zen.ping.timeout: {{ elasticsearch_discovery.zen_ping_timeout }}
 # 1. Disable multicast discovery (enabled by default):
 #
 # discovery.zen.ping.multicast.enabled: false
-{% if elasticsearch_discovery is defined and elasticsearch_discovery.zen_ping_multicast_enabled is defined %}
-discovery.zen.ping.multicast.enabled: {{ elasticsearch_discovery.zen_ping_multicast_enabled }}
+{% if elasticsearch_discovery_zen_ping_multicast_enabled is defined %}
+discovery.zen.ping.multicast.enabled: {{ elasticsearch_discovery_zen_ping_multicast_enabled }}
 {% endif %}
 
 #
@@ -416,8 +416,8 @@ discovery.zen.ping.multicast.enabled: {{ elasticsearch_discovery.zen_ping_multic
 #    to perform discovery when new nodes (master or data) are started:
 #
 # discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
-{% if elasticsearch_discovery is defined and elasticsearch_discovery.zen_ping_unicast_hosts is defined %}
-discovery.zen.ping.unicast.hosts: {{ elasticsearch_discovery.zen_ping_unicast_hosts }}
+{% if elasticsearch_discovery_zen_ping_unicast_hosts is defined %}
+discovery.zen.ping.unicast.hosts: {{ elasticsearch_discovery_zen_ping_unicast_hosts }}
 {% endif %}
 
 # EC2 discovery allows to use AWS EC2 API in order to perform discovery.
@@ -436,92 +436,92 @@ discovery.zen.ping.unicast.hosts: {{ elasticsearch_discovery.zen_ping_unicast_ho
 # Shard level query and fetch threshold logging.
 
 #index.search.slowlog.threshold.query.warn: 10s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_query_warn is defined %}
-index.search.slowlog.threshold.query.warn: {{ elasticsearch_slowlog.threshold_query_warn }}
+{% if elasticsearch_slowlog_threshold_query_warn is defined %}
+index.search.slowlog.threshold.query.warn: {{ elasticsearch_slowlog_threshold_query_warn }}
 {% endif %}
 #index.search.slowlog.threshold.query.info: 5s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_query_info is defined %}
-index.search.slowlog.threshold.query.info: {{ elasticsearch_slowlog.threshold_query_info }}
+{% if elasticsearch_slowlog_threshold_query_info is defined %}
+index.search.slowlog.threshold.query.info: {{ elasticsearch_slowlog_threshold_query_info }}
 {% endif %}
 #index.search.slowlog.threshold.query.debug: 2s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_query_debug is defined %}
-index.search.slowlog.threshold.query.debug: {{ elasticsearch_slowlog.threshold_query_debug }}
+{% if elasticsearch_slowlog_threshold_query_debug is defined %}
+index.search.slowlog.threshold.query.debug: {{ elasticsearch_slowlog_threshold_query_debug }}
 {% endif %}
 #index.search.slowlog.threshold.query.trace: 500ms
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_query_trace is defined %}
-index.search.slowlog.threshold.query.trace: {{ elasticsearch_slowlog.threshold_query_trace }}
+{% if elasticsearch_slowlog_threshold_query_trace is defined %}
+index.search.slowlog.threshold.query.trace: {{ elasticsearch_slowlog_threshold_query_trace }}
 {% endif %}
 
 #index.search.slowlog.threshold.fetch.warn: 1s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_fetch_warn is defined %}
-index.search.slowlog.threshold.fetch.warn: {{ elasticsearch_slowlog.threshold_fetch_warn }}
+{% if elasticsearch_slowlog_threshold_fetch_warn is defined %}
+index.search.slowlog.threshold.fetch.warn: {{ elasticsearch_slowlog_threshold_fetch_warn }}
 {% endif %}
 #index.search.slowlog.threshold.fetch.info: 800ms
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_fetch_info is defined %}
-index.search.slowlog.threshold.fetch.info: {{ elasticsearch_slowlog.threshold_fetch_info }}
+{% if elasticsearch_slowlog_threshold_fetch_info is defined %}
+index.search.slowlog.threshold.fetch.info: {{ elasticsearch_slowlog_threshold_fetch_info }}
 {% endif %}
 #index.search.slowlog.threshold.fetch.debug: 500ms
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_fetch_debug is defined %}
-index.search.slowlog.threshold.fetch.debug: {{ elasticsearch_slowlog.threshold_fetch_debug }}
+{% if elasticsearch_slowlog_threshold_fetch_debug is defined %}
+index.search.slowlog.threshold.fetch.debug: {{ elasticsearch_slowlog_threshold_fetch_debug }}
 {% endif %}
 #index.search.slowlog.threshold.fetch.trace: 200ms
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_fetch_trace is defined %}
-index.search.slowlog.threshold.fetch.trace: {{ elasticsearch_slowlog.threshold_fetch_trace }}
+{% if elasticsearch_slowlog_threshold_fetch_trace is defined %}
+index.search.slowlog.threshold.fetch.trace: {{ elasticsearch_slowlog_threshold_fetch_trace }}
 {% endif %}
 
 #index.indexing.slowlog.threshold.index.warn: 10s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_index_warn is defined %}
-index.indexing.slowlog.threshold.index.warn: {{ elasticsearch_slowlog.threshold_index_warn }}
+{% if elasticsearch_slowlog_threshold_index_warn is defined %}
+index.indexing.slowlog.threshold.index.warn: {{ elasticsearch_slowlog_threshold_index_warn }}
 {% endif %}
 #index.indexing.slowlog.threshold.index.info: 5s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_index_info is defined %}
-index.indexing.slowlog.threshold.index.info: {{ elasticsearch_slowlog.threshold_index_info }}
+{% if elasticsearch_slowlog_threshold_index_info is defined %}
+index.indexing.slowlog.threshold.index.info: {{ elasticsearch_slowlog_threshold_index_info }}
 {% endif %}
 #index.indexing.slowlog.threshold.index.debug: 2s
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_index_debug is defined %}
-index.indexing.slowlog.threshold.index.debug: {{ elasticsearch_slowlog.threshold_index_debug }}
+{% if elasticsearch_slowlog_threshold_index_debug is defined %}
+index.indexing.slowlog.threshold.index.debug: {{ elasticsearch_slowlog_threshold_index_debug }}
 {% endif %}
 #index.indexing.slowlog.threshold.index.trace: 500ms
-{% if elasticsearch_slowlog is defined and elasticsearch_slowlog.threshold_index_trace is defined %}
-index.indexing.slowlog.threshold.index.trace: {{ elasticsearch_slowlog.threshold_index_trace }}
+{% if elasticsearch_slowlog_threshold_index_trace is defined %}
+index.indexing.slowlog.threshold.index.trace: {{ elasticsearch_slowlog_threshold_index_trace }}
 {% endif %}
 
 ################################## GC Logging ################################
 
 #monitor.jvm.gc.ParNew.warn: 1000ms
-{% if elasticsearch_gc is defined and elasticsearch_gc.par_new_warn is defined %}
-monitor.jvm.gc.ParNew.warn: {{ elasticsearch_gc.par_new_warn }}
+{% if elasticsearch_gc_par_new_warn is defined %}
+monitor.jvm.gc.ParNew.warn: {{ elasticsearch_gc_par_new_warn }}
 {% endif %}
 #monitor.jvm.gc.ParNew.info: 700ms
-{% if elasticsearch_gc is defined and elasticsearch_gc.par_new_info is defined %}
-monitor.jvm.gc.ParNew.info: {{ elasticsearch_gc.par_new_info }}
+{% if elasticsearch_gc_par_new_info is defined %}
+monitor.jvm.gc.ParNew.info: {{ elasticsearch_gc_par_new_info }}
 {% endif %}
 #monitor.jvm.gc.ParNew.debug: 400ms
-{% if elasticsearch_gc is defined and elasticsearch_gc.par_new_debug is defined %}
-monitor.jvm.gc.ParNew.debug: {{ elasticsearch_gc.par_new_debug }}
+{% if elasticsearch_gc_par_new_debug is defined %}
+monitor.jvm.gc.ParNew.debug: {{ elasticsearch_gc_par_new_debug }}
 {% endif %}
 
 #monitor.jvm.gc.ConcurrentMarkSweep.warn: 10s
-{% if elasticsearch_gc is defined and elasticsearch_gc.soncurrent_mark_sweep_warn is defined %}
-monitor.jvm.gc.ConcurrentMarkSweep.warn: {{ elasticsearch_gc.soncurrent_mark_sweep_warn }}
+{% if elasticsearch_gc_soncurrent_mark_sweep_warn is defined %}
+monitor.jvm.gc.ConcurrentMarkSweep.warn: {{ elasticsearch_gc_soncurrent_mark_sweep_warn }}
 {% endif %}
 #monitor.jvm.gc.ConcurrentMarkSweep.info: 5s
-{% if elasticsearch_gc is defined and elasticsearch_gc.soncurrent_mark_sweep_info is defined %}
-monitor.jvm.gc.ConcurrentMarkSweep.info: {{ elasticsearch_gc.soncurrent_mark_sweep_info }}
+{% if elasticsearch_gc_soncurrent_mark_sweep_info is defined %}
+monitor.jvm.gc.ConcurrentMarkSweep.info: {{ elasticsearch_gc_soncurrent_mark_sweep_info }}
 {% endif %}
 #monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s
-{% if elasticsearch_gc is defined and elasticsearch_gc.soncurrent_mark_sweep_debug is defined %}
-monitor.jvm.gc.ConcurrentMarkSweep.debug: {{ elasticsearch_gc.soncurrent_mark_sweep_debug }}
+{% if elasticsearch_gc_soncurrent_mark_sweep_debug is defined %}
+monitor.jvm.gc.ConcurrentMarkSweep.debug: {{ elasticsearch_gc_soncurrent_mark_sweep_debug }}
 {% endif %}
 
 ################################### Varia #####################################
 
-{% if elasticsearch_misc is defined and elasticsearch_misc.auto_create_index is defined %}
-action.auto_create_index: {{ elasticsearch_misc.auto_create_index }}
+{% if elasticsearch_misc_auto_create_index is defined %}
+action.auto_create_index: {{ elasticsearch_misc_auto_create_index }}
 {% endif %}
-{% if elasticsearch_misc is defined and elasticsearch_misc.disable_delete_all_indices is defined %}
-action.disable_delete_all_indices: {{ elasticsearch_misc.disable_delete_all_indices }}
+{% if elasticsearch_misc_disable_delete_all_indices is defined %}
+action.disable_delete_all_indices: {{ elasticsearch_misc_disable_delete_all_indices }}
 {% endif %}
-{% if elasticsearch_misc is defined and elasticsearch_misc.query_bool_max_clause_count is defined %}
-action.query.bool.max_clause_count: {{ elasticsearch_misc.query_bool_max_clause_count }}
+{% if elasticsearch_misc_query_bool_max_clause_count is defined %}
+action.query.bool.max_clause_count: {{ elasticsearch_misc_query_bool_max_clause_count }}
 {% endif %}
