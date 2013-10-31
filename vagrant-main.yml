@@ -1,0 +1,11 @@
+---
+# Elasticsearch Ansible Playbook
+- hosts: all
+  user: $user
+  sudo: yes
+
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - include: tasks/main.yml
