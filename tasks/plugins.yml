@@ -1,0 +1,14 @@
+---
+# Install Plugins
+
+# Loop though elasticsearch_plugins and install them
+- name: Installing Plugins
+  action: >
+    shell bin/plugin -install {{ item.provider }}/{{ item.name }}/{{ item.version }}
+    chdir={{ elasticsearch_home_dir }}
+  with_items: elasticsearch_plugins
+# Fix permissions
+- file: >
+    path="{{ elasticsearch_plugin_dir }}" state=directory
+    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
+    recurse=yes

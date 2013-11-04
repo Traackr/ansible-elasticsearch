@@ -72,6 +72,18 @@
   when: elasticsearch_conf_dir is defined
 - template: src=elasticsearch.default.j2 dest=/etc/default/elasticsearch owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
 
+# Install AWS Plugin
+- include: aws.yml
+  when: (elasticsearch_plugin_aws_version is defined)
+
+# Install Other Generic Plugins
+- include: plugins.yml
+  when: (elasticsearch_plugins is defined)
+
+# Install custom JARs
+- include: custom-jars.yml
+  when: (elasticsearch_custom_jars is defined)
+
 # Restart Elasticsearch
 - name: Restarting Elasticsearch
   service: name=elasticsearch state=restarted
