@@ -12,3 +12,9 @@ elasticsearch_apt_dependencies:
   - ntp
   - oracle-java7-installer
 elasticsearch_max_open_files: 65535
+elasticsearch_home_dir: /usr/share/elasticsearch
+elasticsearch_plugin_dir: /usr/share/elasticsearch/plugins
+elasticsearch_log_dir: /var/log/elasticsearch
+elasticsearch_data_dir: /var/lib/elasticsearch
+elasticsearch_work_dir: /tmp/elasticsearch
+elasticsearch_conf_dir: /etc/elasticsearch
