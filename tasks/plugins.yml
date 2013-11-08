@@ -1,5 +1,22 @@
 ---
-# Install Plugins
+# Install Elasticsearch Plugins
+#
+# You will need to define an array called 'elasticsearch_plugins' in your playbook or inventory, such that:
+#
+# elasticsearch_plugins:
+#  - { name: '<plugin name>', provider: '<plugin provider>', version: '<plugin version>' }
+#  - ...
+# where if you were to install the plugin via bin/plugin -install, you would type:
+#
+# bin/plugin -install <plugin provider>/<plugin name>/<plugin version>
+
+# Example for https://github.com/elasticsearch/elasticsearch-mapper-attachments (bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.9.0):
+# elasticsearch_plugins:
+#  - { name: 'elasticsearch-mapper-attachments', provider: 'elasticsearch', version: '1.9.0' }
+#
+# Example for https://github.com/richardwilly98/elasticsearch-river-mongodb (bin/plugin -i com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/1.7.1):
+# elasticsearch_plugins:
+#  - { name: 'elasticsearch-river-mongodb', provider: 'com.github.richardwilly98.elasticsearch', version: '1.7.1' }
 
 # Loop though elasticsearch_plugins and install them
 - name: Installing Plugins

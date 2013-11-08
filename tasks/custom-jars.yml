@@ -1,5 +1,13 @@
 ---
 # Install Custom JARs
+#
+# Custom jars are made available to the Elasticsearch classpath by being downloaded into the elasticsearch_home_dir/lib folder.
+# An example of a custom jar can include a custom Lucene Similarity Provider. You will need to define an array called
+# 'elasticsearch_custom_jars' in your playbook or inventory, such that:
+#
+# elasticsearch_custom_jars:
+#  - { uri: '<URL where JAR can be downloaded from: required>', filename: '<alternative name for final JAR if different from file downladed: leave blank to use same filename>', user: '<BASIC auth username: leave blank of not needed>', passwd: '<BASIC auth password: leave blank of not needed>' }
+#  - ...
 
 # Loop though elasticsearch_custom_jars and install them
 - name: Installing Custom JARs
