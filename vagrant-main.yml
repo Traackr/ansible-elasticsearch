@@ -5,7 +5,9 @@
   sudo: yes
 
   vars_files:
-    - vars/main.yml
+    - defaults/main.yml
+    - vars/vagrant.yml
 
   tasks:
     - include: tasks/main.yml
+    # - include: tasks/spm.yml spm_client_token=<enter your token>

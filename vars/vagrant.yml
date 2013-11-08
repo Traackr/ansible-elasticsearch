@@ -1,0 +1,11 @@
+---
+# Elasticsearch Ansible Variables
+
+elasticsearch_version: 0.90.5
+elasticsearch_heap_size: 1g
+elasticsearch_max_open_files: 65535
+elasticsearch_timezone: "America/New_York"
+elasticsearch_node_max_local_storage_nodes: 1
+elasticsearch_index_mapper_dynamic: "true"
+elasticsearch_memory_bootstrap_mlockall: "true"
+
