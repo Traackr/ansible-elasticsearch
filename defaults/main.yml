@@ -10,6 +10,7 @@ elasticsearch_apt_repos:
 elasticsearch_apt_dependencies:
   - htop
   - ntp
+  - unzip
   - oracle-java7-installer
 elasticsearch_max_open_files: 65535
 elasticsearch_home_dir: /usr/share/elasticsearch
