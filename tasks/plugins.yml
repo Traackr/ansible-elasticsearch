@@ -4,25 +4,40 @@
 # You will need to define an array called 'elasticsearch_plugins' in your playbook or inventory, such that:
 #
 # elasticsearch_plugins:
-#  - { name: '<plugin name>', provider: '<plugin provider>', version: '<plugin version>' }
+#  - { name: '<plugin name>', url: '<[optional] plugin url>' }
 #  - ...
-# where if you were to install the plugin via bin/plugin -install, you would type:
+# where if you were to install the plugin via bin/plugin, you would type:
 #
-# bin/plugin -install <plugin provider>/<plugin name>/<plugin version>
+# bin/plugin -install <plugin name>
+#
+# or
+#
+# bin/plugin -install <plugin name> -url <plugin url>
 
 # Example for https://github.com/elasticsearch/elasticsearch-mapper-attachments (bin/plugin -install elasticsearch/elasticsearch-mapper-attachments/1.9.0):
 # elasticsearch_plugins:
-#  - { name: 'elasticsearch-mapper-attachments', provider: 'elasticsearch', version: '1.9.0' }
+#  - { name: 'elasticsearch/elasticsearch-mapper-attachments/1.9.0' }
 #
 # Example for https://github.com/richardwilly98/elasticsearch-river-mongodb (bin/plugin -i com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/1.7.1):
 # elasticsearch_plugins:
-#  - { name: 'elasticsearch-river-mongodb', provider: 'com.github.richardwilly98.elasticsearch', version: '1.7.1' }
+#  - { name: 'com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/1.7.1' }
+#
+# Example for https://github.com/imotov/elasticsearch-facet-script (bin/plugin -install facet-script -url http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip):
+# elasticsearch_plugins:
+#  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
 
 # Loop though elasticsearch_plugins and install them
-- name: Installing Plugins
+- name: Installing Plugins by Name
   action: >
-    shell bin/plugin -install {{ item.provider }}/{{ item.name }}/{{ item.version }}
+    shell bin/plugin -install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
+  when: item.url is not defined
+  with_items: elasticsearch_plugins
+- name: Installing Plugins by URL
+  action: >
+    shell bin/plugin -install {{ item.name }} -url {{ item.url }}
+    chdir={{ elasticsearch_home_dir }}
+  when: item.url is defined
   with_items: elasticsearch_plugins
 # Fix permissions
 - file: >
