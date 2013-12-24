@@ -10,4 +10,5 @@
 
   tasks:
     - include: tasks/main.yml
-    # - include: tasks/spm.yml spm_client_token=<enter your token>
+    # Uncomment to install and enable SPM. Make sure to set the spm_client_token variable in your inventory.ini to your SPM key
+    # - include: tasks/spm.yml
