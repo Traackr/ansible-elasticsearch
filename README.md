@@ -1,37 +1,27 @@
-# Ansible Role for Elasticsearch
-This is an [Ansible](http://www.ansibleworks.com/) role for [Elasticsearch](http://www.elasticsearch.org/). While you can use it by itself, it's designed to run as part of a larger playbook customized for your local environment.
+# Ansible Playbook for Elasticsearch
+This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](http://www.elasticsearch.org/). You can use it by itself or as part of a larger playbook customized for your local environment.
 
 ## Features
 - Support for installing plugins
-- Special support for installing and configuring EC2 plugin
+- Support for installing and configuring EC2 plugin
 - Support for installing custom JARs in the Elasticsearch classpath (e.g. custom Lucene Similarity JAR)
 - Support for installing the [Sematext SPM](http://www.sematext.com/spm/) monitor
 
 ## Testing locally with Vagrant
 A sample [Vagrant](http://www.vagrantup.com/) configuration is provided to help with local testing. After installing Vagrant, run `vagrant up` at the root of the project to get an VM instance bootstrapped and configured with a running instance of Elasticsearch. Look at `vars/vagrant.yml` and `defaults/main.yml` for the variables that will be substituted in `templates/elasticsearch.yml.j2`.
 
-## Include role in a larger playbook
-### Add this role as a git submodule
-Assuming your playbook structure is such as:
-```
-- my-playbook
-  |- vars
-  |- roles
-  |- main.yml
-  \- inventory.ini
-```
+## Running Standalone Playbook
+### Copy Example Files
+Make copies of the following files and rename them to suit your environment. E.g.:
 
-Checkout this project as a submodule under roles:
+- vagrant-main.yml => my-playbook-main.yml
+- vagrant-inventory.ini => my-inventory.ini
+- vars/vagrant.yml => vars/my-vars.yml
 
-```
-$  cd roles
-$  git submodule add git://github.com/traackr/ansible-elasticsearch.git ./ansible-elasticsearch
-$  git submodule update --init
-$  git commit ./submodule -m "Added submodule as ./subm"
-```
+Edit the copied files to suit your environment and needs. See examples below.
 
-### Sample inventory.ini
-Edit your inventory.ini and customize your cluster and node names:
+### Edit your my-inventory.ini
+Edit your my-inventory.ini and customize your cluster and node names:
 
 ```
 #########################
@@ -63,11 +53,11 @@ elasticsearch_plugin_aws_ec2_groups=MyElasticSearchGroup
 spm_client_token=<your SPM token here>
 ```
 
-### Edit your variables
-See `vars/sample.yml` and create a `my-playbook/vars/my-vars.yml` that satisfies your local needs. See below for configurations regarding EC2, plugins and custom JARs.
+### Edit your vars/my-vars.yml
+See `vars/sample.yml` and `vars/vagrant.yml` for exmaple variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to defile in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
 
-### Configure your playbook
-Example `my-playbook/main.yml`:
+### Edit your my-playbook-main.yml
+Example `my-playbook-main.yml`:
 
 ```
 ---
@@ -77,21 +67,24 @@ Example `my-playbook/main.yml`:
 #########################
 
 - hosts: all_nodes
-  user: ubuntu
+  user: $user
   sudo: yes
-  roles:
-    - ansible-elasticsearch
+
   vars_files:
+    - defaults/main.yml
     - vars/my-vars.yml
+
+  tasks:
+    - include: tasks/main.yml
 ```
 
 ### Launch
 ```
-$  cd my-playbook
-$  ansible-playbook -i inventory.ini main.yml
+$  ansible my-playbook-main.yml -i my-inventory.ini -e user=<your sudo user for the elasticsearch installation>
 ```
 
-## Configuring EC2
+## Enabling Added Features
+### Configuring EC2
 The following variables need to be defined in your playbook or inventory:
 
 - elasticsearch_plugin_aws_version
@@ -105,7 +98,7 @@ The following variables provide a for now limited configuration for the plugin. 
 - elasticsearch_plugin_aws_access_key
 - elasticsearch_plugin_aws_secret_key
 
-## Installing plugins
+### Installing plugins
 You will need to define an array called `elasticsearch_plugins` in your playbook or inventory, such that:
 ```
 elasticsearch_plugins:
@@ -137,7 +130,7 @@ elasticsearch_plugins:
  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
 ```
 
-## Installing Custom JARs
+### Installing Custom JARs
 Custom jars are made available to the Elasticsearch classpath by being downloaded into the elasticsearch_home_dir/lib folder. An example of a custom jar can include a custom Lucene Similarity Provider. You will need to define an array called `elasticsearch_custom_jars` in your playbook or inventory, such that:
 
 ```
@@ -146,7 +139,7 @@ elasticsearch_custom_jars:
  - ...
 ```
 
-## Enabling Sematext SPM
+### Enabling Sematext SPM
 Enable the SPM task in your playbook:
 
 ```
@@ -156,6 +149,47 @@ tasks:
 ```
 
 Set the spm_client_token variable in your inventory.ini to your SPM key.
+
+## Include role in a larger playbook
+### Add this role as a git submodule
+Assuming your playbook structure is such as:
+```
+- my-master-playbook
+  |- vars
+  |- roles
+  |- my-master-playbook-main.yml
+  \- my-master-inventory.ini
+```
+
+Checkout this project as a submodule under roles:
+
+```
+$  cd roles
+$  git submodule add git://github.com/traackr/ansible-elasticsearch.git ./ansible-elasticsearch
+$  git submodule update --init
+$  git commit ./submodule -m "Added submodule as ./subm"
+```
+
+### Include this playbook as a role in your master playbook
+Example `my-master-playbook-main.yml`:
+
+```
+---
+
+#########################
+# Elasticsearch install #
+#########################
+
+- hosts: all_nodes
+  user: ubuntu
+  sudo: yes
+
+  roles:
+    - ansible-elasticsearch
+
+  vars_files:
+    - vars/my-vars.yml
+```
 
 # Issues, requests, contributions
 This software is provided as is. Having said that, if you see an issue, feel free to log a ticket. We'll do our best to address it. Same if you want to see a certain feature supported in the fututre. No guarantees are made that any requested feature will be implemented. If you'd like to contribute, feel free to clone and submit a pull request.
