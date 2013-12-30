@@ -155,6 +155,9 @@ index.number_of_replicas: {{ elasticsearch_number_of_replicas }}
 {% if elasticsearch_index_mapper_dynamic is defined %}
 index.mapper_dynamic: {{ elasticsearch_index_mapper_dynamic }}
 {% endif %}
+{% if elasticsearch_misc_query_bool_max_clause_count is defined %}
+index.query.bool.max_clause_count: {{ elasticsearch_misc_query_bool_max_clause_count }}
+{% endif %}
 
 #################################### Paths ####################################
 
@@ -521,7 +524,4 @@ action.auto_create_index: {{ elasticsearch_misc_auto_create_index }}
 {% endif %}
 {% if elasticsearch_misc_disable_delete_all_indices is defined %}
 action.disable_delete_all_indices: {{ elasticsearch_misc_disable_delete_all_indices }}
-{% endif %}
-{% if elasticsearch_misc_query_bool_max_clause_count is defined %}
-action.query.bool.max_clause_count: {{ elasticsearch_misc_query_bool_max_clause_count }}
 {% endif %}
