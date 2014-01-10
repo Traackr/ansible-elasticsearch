@@ -1,2 +1,14 @@
 ---
 # Elasticsearch Ansible Meta
+galaxy_info:
+  author: "George Stathis"
+  company: Traackr
+  license: MIT
+  min_ansible_version: 1.3
+  platforms:
+   - name: Ubuntu
+     versions:
+      - precise
+  categories:
+   - database:nosql
+dependencies: []

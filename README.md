@@ -193,3 +193,13 @@ Example `my-master-playbook-main.yml`:
 
 # Issues, requests, contributions
 This software is provided as is. Having said that, if you see an issue, feel free to log a ticket. We'll do our best to address it. Same if you want to see a certain feature supported in the fututre. No guarantees are made that any requested feature will be implemented. If you'd like to contribute, feel free to clone and submit a pull request.
+
+# Dependencies
+None
+
+# License
+MIT
+
+# Author Information
+
+George Stathis - gstathis [at] traackr.com
