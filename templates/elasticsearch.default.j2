@@ -50,4 +50,14 @@ MAX_LOCKED_MEMORY={{ elasticsearch_max_locked_memory }}
 #CONF_FILE=/etc/elasticsearch/elasticsearch.yml
 
 # Additional Java OPTS
+{% if elasticsearch_java_opts is defined %}
+ES_JAVA_OPTS="{{ elasticsearch_java_opts }}"
+{% else %}
 #ES_JAVA_OPTS=
+{% endif %}
+
+# Environment Vars
+{% if elasticsearch_env_use_gc_logging is defined %}
+export ES_USE_GC_LOGGING=true
+{% endif %}
+
