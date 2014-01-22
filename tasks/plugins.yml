@@ -39,6 +39,7 @@
     chdir={{ elasticsearch_home_dir }}
   when: item.url is defined
   with_items: elasticsearch_plugins
+  ignore_errors: yes
 # Fix permissions
 - file: >
     path="{{ elasticsearch_plugin_dir }}" state=directory
