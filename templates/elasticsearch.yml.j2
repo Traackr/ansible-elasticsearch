@@ -433,6 +433,18 @@ discovery.zen.ping.unicast.hosts: {{ elasticsearch_discovery_zen_ping_unicast_ho
 # See <http://elasticsearch.org/tutorials/2011/08/22/elasticsearch-on-ec2.html>
 # for a step-by-step tutorial.
 
+# Fault Discovery
+# See <http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/modules-discovery-zen.html#fault-detection>
+{% if elasticsearch_discovery_zen_fd_ping_interval is defined %}
+discovery.zen.fd.ping_interval: {{ elasticsearch_discovery_zen_fd_ping_interval }}
+{% endif %}
+{% if elasticsearch_discovery_zen_fd_ping_timeout is defined %}
+discovery.zen.fd.ping_timeout: {{ elasticsearch_discovery_zen_fd_ping_timeout }}
+{% endif %}
+{% if elasticsearch_discovery_zen_fd_ping_retries is defined %}
+discovery.zen.fd.ping_retries: {{ elasticsearch_discovery_zen_fd_ping_retries }}
+{% endif %}
+
 
 ################################## Slow Log ##################################
 
