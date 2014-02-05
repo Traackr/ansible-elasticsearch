@@ -6,6 +6,7 @@ This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](
 - Support for installing and configuring EC2 plugin
 - Support for installing custom JARs in the Elasticsearch classpath (e.g. custom Lucene Similarity JAR)
 - Support for installing the [Sematext SPM](http://www.sematext.com/spm/) monitor
+- Support for installing the [Marvel](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
 
 ## Testing locally with Vagrant
 A sample [Vagrant](http://www.vagrantup.com/) configuration is provided to help with local testing. After installing Vagrant, run `vagrant up` at the root of the project to get an VM instance bootstrapped and configured with a running instance of Elasticsearch. Look at `vars/vagrant.yml` and `defaults/main.yml` for the variables that will be substituted in `templates/elasticsearch.yml.j2`.
@@ -91,7 +92,7 @@ The following variables need to be defined in your playbook or inventory:
 
 See [https://github.com/elasticsearch/elasticsearch-cloud-aws](https://github.com/elasticsearch/elasticsearch-cloud-aws) for the version that most accurately matches your installation.
 
-The following variables provide a for now limited configuration for the plugin. More options may be available in the future (see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/modules-discovery-ec2.html):
+The following variables provide a for now limited configuration for the plugin. More options may be available in the future (see [http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/modules-discovery-ec2.html)](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/modules-discovery-ec2.html)):
 
 - elasticsearch_plugin_aws_ec2_groups
 - elasticsearch_plugin_aws_ec2_ping_timeout
@@ -149,6 +150,20 @@ tasks:
 ```
 
 Set the spm_client_token variable in your inventory.ini to your SPM key.
+
+### Configuring Marvel
+
+The following variables need to be defined in your playbook or inventory:
+
+- elasticsearch_plugin_marvel_version
+
+The following variables provide configuration for the plugin. More options may be available in the future (see [http://www.elasticsearch.org/guide/en/marvel/current/#stats-export](http://www.elasticsearch.org/guide/en/marvel/current/#stats-export)):
+
+- elasticsearch_plugin_marvel_agent_enabled
+- elasticsearch_plugin_marvel_agent_exporter_es_hosts
+- elasticsearch_plugin_marvel_agent_indices
+- elasticsearch_plugin_marvel_agent_interval
+- elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
 ## Include role in a larger playbook
 ### Add this role as a git submodule

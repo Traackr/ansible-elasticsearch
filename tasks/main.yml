@@ -84,6 +84,10 @@
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
 
+# Install Marvel Plugin
+- include: marvel.yml
+  when: (elasticsearch_plugin_marvel_version is defined)
+
 # Restart Elasticsearch
 - name: Restarting Elasticsearch
   service: name=elasticsearch state=restarted
