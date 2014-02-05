@@ -30,28 +30,27 @@
     insertafter='^(#*\sVaria\s#*)$'
     line="marvel.agent.exporter.es.index.timeformat: {{ elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat }}"
   when: elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat is defined
-  lineinfile: >
+- lineinfile: >
     dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
     regexp='^(marvel.agent.interval.*)$'
     insertafter='^(#*\sVaria\s#*)$'
     line="marvel.agent.interval: {{ elasticsearch_plugin_marvel_agent_interval }}"
   when: elasticsearch_plugin_marvel_agent_interval is defined
-  lineinfile: >
+- lineinfile: >
     dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
     regexp='^(marvel.agent.indices.*)$'
     insertafter='^(#*\sVaria\s#*)$'
     line="marvel.agent.indices: {{ elasticsearch_plugin_marvel_agent_indices }}"
   when: elasticsearch_plugin_marvel_agent_indices is defined
-  lineinfile: >
+- lineinfile: >
     dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
     regexp='^(marvel.agent.exporter.es.hosts.*)$'
     insertafter='^(#*\sVaria\s#*)$'
     line="marvel.agent.exporter.es.hosts: {{ elasticsearch_plugin_marvel_agent_exporter_es_hosts }}"
   when: elasticsearch_plugin_marvel_agent_exporter_es_hosts is defined
-  lineinfile: >
+- lineinfile: >
     dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
     regexp='^(marvel.agent.enabled.*)$'
     insertafter='^(#*\sVaria\s#*)$'
     line="marvel.agent.enabled: {{ elasticsearch_plugin_marvel_agent_enabled }}"
   when: elasticsearch_plugin_marvel_agent_enabled is defined
-
