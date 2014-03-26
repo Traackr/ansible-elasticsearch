@@ -62,6 +62,9 @@ if [ "x$ES_USE_GC_LOGGING" != "x" ]; then
 {% else %}
   JAVA_OPTS="$JAVA_OPTS -Xloggc:/var/log/elasticsearch/gc.log"
 {% endif %}
+{% if elasticsearch_java_opts is defined %}
+  JAVA_OPTS="$JAVA_OPTS {{ elasticsearch_java_opts }}"
+{% endif %}
 fi
 
 # Causes the JVM to dump its heap on OutOfMemory.
