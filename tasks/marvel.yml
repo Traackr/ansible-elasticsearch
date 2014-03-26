@@ -1,0 +1,56 @@
+---
+# Install Marvel (see http://www.elasticsearch.org/guide/en/marvel/current/)
+#
+# The following variables need to be defined in your playbook or inventory:
+# - elasticsearch_plugin_marvel_version
+#
+# The following variables provide configuration for the plugin.
+# More options may be available in the future:
+# - elasticsearch_plugin_marvel_agent_enabled
+# - elasticsearch_plugin_marvel_agent_exporter_es_hosts
+# - elasticsearch_plugin_marvel_agent_indices
+# - elasticsearch_plugin_marvel_agent_interval
+# - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
+
+
+- name: Installing Marvel Plugin
+  action: >
+    shell bin/plugin -i elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
+    chdir={{ elasticsearch_home_dir }}
+# Fix permissions
+- file: >
+    path="{{ elasticsearch_plugin_dir }}" state=directory
+    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
+    recurse=yes
+# Configure Marvel Plugin
+- name: Configuring Marvel Plugin
+  lineinfile: >
+    dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
+    regexp='^(marvel.agent.exporter.es.index.timeformat.*)$'
+    insertafter='^(#*\sVaria\s#*)$'
+    line="marvel.agent.exporter.es.index.timeformat: {{ elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat }}"
+  when: elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat is defined
+- lineinfile: >
+    dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
+    regexp='^(marvel.agent.interval.*)$'
+    insertafter='^(#*\sVaria\s#*)$'
+    line="marvel.agent.interval: {{ elasticsearch_plugin_marvel_agent_interval }}"
+  when: elasticsearch_plugin_marvel_agent_interval is defined
+- lineinfile: >
+    dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
+    regexp='^(marvel.agent.indices.*)$'
+    insertafter='^(#*\sVaria\s#*)$'
+    line="marvel.agent.indices: {{ elasticsearch_plugin_marvel_agent_indices }}"
+  when: elasticsearch_plugin_marvel_agent_indices is defined
+- lineinfile: >
+    dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
+    regexp='^(marvel.agent.exporter.es.hosts.*)$'
+    insertafter='^(#*\sVaria\s#*)$'
+    line="marvel.agent.exporter.es.hosts: {{ elasticsearch_plugin_marvel_agent_exporter_es_hosts }}"
+  when: elasticsearch_plugin_marvel_agent_exporter_es_hosts is defined
+- lineinfile: >
+    dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
+    regexp='^(marvel.agent.enabled.*)$'
+    insertafter='^(#*\sVaria\s#*)$'
+    line="marvel.agent.enabled: {{ elasticsearch_plugin_marvel_agent_enabled }}"
+  when: elasticsearch_plugin_marvel_agent_enabled is defined
