@@ -7,7 +7,7 @@
 
 # Update repos
 - name: Install python-software-properties
-  apt: pkg=python-software-properties state=present update_cache=yes
+  apt: pkg=python-software-properties state=present update_cache=yes cache_valid_time={{apt_cache_valid_time}}
 - name: Update repositories
   apt_repository: repo={{ item }} state=present update_cache=yes
   with_items: elasticsearch_apt_repos
@@ -15,6 +15,12 @@
 # Accept Oracle license
 - name: Accept Oracle license prior JDK installation
   shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections; echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections creates=/usr/lib/jvm/java-7-oracle
+  when: elasticsearch_install_java
+
+# Install Java
+- name: Install dependencies
+  apt: pkg={{elasticsearch_apt_java_package}} state=present
+  when: elasticsearch_install_java
 
 # Install dependencies
 - name: Install dependencies
