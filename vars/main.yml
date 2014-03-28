@@ -1,0 +1,1 @@
+apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
