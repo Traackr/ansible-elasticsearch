@@ -19,3 +19,6 @@ elasticsearch_log_dir: /var/log/elasticsearch
 elasticsearch_data_dir: /var/lib/elasticsearch
 elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
+
+# Non-Elasticsearch Defaults
+apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
