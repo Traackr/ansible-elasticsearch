@@ -28,5 +28,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.inventory_path = "vagrant-inventory.ini"
     ansible.playbook = "vagrant-main.yml"
     ansible.extra_vars = { user: "vagrant" }
+    ansible.limit = 'all'
   end
 end
