@@ -32,18 +32,26 @@
   group: name={{ elasticsearch_group }}
 - user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} createhome=no
 
-# Download deb
+# Check whether we have aleady installed the same version
+- shell: if [ -e /usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch_version }}.jar ]; then echo yes; else echo no; fi;
+  register: version_exists
+
+# Download deb if needed
 - name: Download Elasticsearch deb
   get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+  when: version_exists.stdout == 'no'
 
 # Uninstall previous version if applicable
 - name: Uninstalling previous version if applicable
-  shell: dpkg --purge elasticsearch
+  shell: dpkg --remove elasticsearch
+  when: version_exists.stdout == 'no'
 - file: path=/usr/share/elasticsearch state=absent
+  when: version_exists.stdout == 'no'
 
 # Install the deb
 - name: Install Elasticsearch deb
   shell: dpkg -i -E --force-confnew /tmp/elasticsearch-{{ elasticsearch_version }}.deb
+  when: version_exists.stdout == 'no'
 - file: path=/usr/share/elasticsearch state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
 
 # Configure directories
@@ -56,6 +64,8 @@
   when: elasticsearch_work_dir is defined
 - file: path={{ elasticsearch_conf_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_conf_dir is defined
+- file: path={{ elasticsearch_plugin_dir }} state=absent
+  when: elasticsearch_plugin_dir is defined
 - file: path={{ elasticsearch_plugin_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_plugin_dir is defined
 
