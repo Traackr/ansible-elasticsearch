@@ -22,3 +22,4 @@ elasticsearch_conf_dir: /etc/elasticsearch
 
 # Non-Elasticsearch Defaults
 apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
+elasticsearch_install_java: "true"
