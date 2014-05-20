@@ -7,11 +7,11 @@ elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/ela
 elasticsearch_version: 0.90.5
 elasticsearch_apt_repos:
   - 'ppa:webupd8team/java'
+elasticsearch_apt_java_package: oracle-java7-installer
 elasticsearch_apt_dependencies:
   - htop
   - ntp
   - unzip
-  - oracle-java7-installer
 elasticsearch_max_open_files: 65535
 elasticsearch_home_dir: /usr/share/elasticsearch
 elasticsearch_plugin_dir: /usr/share/elasticsearch/plugins
@@ -19,3 +19,7 @@ elasticsearch_log_dir: /var/log/elasticsearch
 elasticsearch_data_dir: /var/lib/elasticsearch
 elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
+
+# Non-Elasticsearch Defaults
+apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
+elasticsearch_install_java: "true"

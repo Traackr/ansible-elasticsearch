@@ -33,6 +33,7 @@
     chdir={{ elasticsearch_home_dir }}
   when: item.url is not defined
   with_items: elasticsearch_plugins
+  ignore_errors: yes
 - name: Installing Plugins by URL
   action: >
     shell bin/plugin -install {{ item.name }} -url {{ item.url }}

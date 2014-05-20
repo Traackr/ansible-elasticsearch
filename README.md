@@ -165,6 +165,14 @@ The following variables provide configuration for the plugin. More options may b
 - elasticsearch_plugin_marvel_agent_interval
 - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
+## Disable Java installation
+
+If you prefer to skip the built-in installation of the Oracle JRE, use the `elasticsearch_install_java` flag:
+
+```
+elasticsearch_install_java: "false"
+```
+
 ## Include role in a larger playbook
 ### Add this role as a git submodule
 Assuming your playbook structure is such as:
