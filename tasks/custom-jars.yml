@@ -12,9 +12,8 @@
 # Loop though elasticsearch_custom_jars and install them
 - name: Installing Custom JARs
   action: >
-    uri url={{ item.uri }} method=GET
-    user={{ item.user }} password={{ item.passwd }} dest="{{ elasticsearch_home_dir }}/lib/{{ item.filename }}"
-    force_basic_auth=yes follow_redirects=yes
+    get_url url={{ item.uri }}
+    url_username={{ item.user }} url_password={{ item.passwd }} dest="{{ elasticsearch_home_dir }}/lib/{{ item.filename }}"
   with_items: elasticsearch_custom_jars
 # Fix permissions
 - file: >
