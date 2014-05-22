@@ -140,6 +140,16 @@ elasticsearch_custom_jars:
  - ...
 ```
 
+### Configuring Thread Pools
+Elasticsearch [thread pools](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/modules-threadpool.html) can be configured using the `elasticsearch_thread_pools` list variable:
+
+```
+elasticsearch_thread_pools:
+  - "threadpool.bulk.type: fixed"
+  - "threadpool.bulk.size: 50"
+  - "threadpool.bulk.queue_size: 1000"
+```
+
 ### Enabling Sematext SPM
 Enable the SPM task in your playbook:
 
