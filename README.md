@@ -81,7 +81,7 @@ Example `my-playbook-main.yml`:
 
 ### Launch
 ```
-$  ansible my-playbook-main.yml -i my-inventory.ini -e user=<your sudo user for the elasticsearch installation>
+$  ansible-playbook my-playbook-main.yml -i my-inventory.ini -e user=<your sudo user for the elasticsearch installation>
 ```
 
 ## Enabling Added Features
