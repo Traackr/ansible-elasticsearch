@@ -105,6 +105,10 @@
 - include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
 
+# Set defaults (for reboot)
+- name: Add to init scripts
+  shell: sudo /usr/sbin/update-rc.d elasticsearch defaults
+
 # Restart Elasticsearch
 - name: Restarting Elasticsearch
   service: name=elasticsearch state=restarted
