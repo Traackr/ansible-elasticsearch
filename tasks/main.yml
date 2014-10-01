@@ -92,5 +92,8 @@
   include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
 
+- name: create symlink to auto-start Elasticsearch on server boot
+  file: src=/etc/init.d/elasticsearch path=/etc/rc2.d/S90elasticsearch state=link
+
 - name: Restarting Elasticsearch
   service: name=elasticsearch state=restarted
