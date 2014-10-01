@@ -4,7 +4,7 @@
 elasticsearch_user: elasticsearch
 elasticsearch_group: elasticsearch
 elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/elasticsearch
-elasticsearch_version: 0.90.5
+elasticsearch_version: 1.1.1
 elasticsearch_apt_repos:
   - 'ppa:webupd8team/java'
 elasticsearch_apt_java_package: oracle-java7-installer
@@ -16,7 +16,7 @@ elasticsearch_max_open_files: 65535
 elasticsearch_home_dir: /usr/share/elasticsearch
 elasticsearch_plugin_dir: /usr/share/elasticsearch/plugins
 elasticsearch_log_dir: /var/log/elasticsearch
-elasticsearch_data_dir: /var/lib/elasticsearch
+elasticsearch_data_dir: /data/elasticsearch
 elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
 

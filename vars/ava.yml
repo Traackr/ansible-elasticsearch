@@ -1,0 +1,39 @@
+---
+# Elasticsearch Ansible Sample Variables
+
+elasticsearch_version: 1.1.1
+elasticsearch_heap_size: 2g
+elasticsearch_max_open_files: 65535
+elasticsearch_max_locked_memory: unlimited
+elasticsearch_timezone: "Etc/UTC"
+elasticsearch_cluster_name: logstash
+elasticsearch_node_name: elasticsearch-ansible-node
+elasticsearch_node_max_local_storage_nodes: 1
+elasticsearch_index_mapper_dynamic: "true"
+elasticsearch_memory_bootstrap_mlockall: "true"
+elasticsearch_gateway_type: local
+elasticsearch_gateway_recover_after_nodes: 1
+elasticsearch_gateway_recover_after_time: 2m
+elasticsearch_gateway_expected_nodes: 1
+elasticsearch_discovery_zen_ping_multicast_enabled: "false"
+
+# MJT: increased security in response to compromised server
+elasticsearch_script_disable_dynamic: "true"
+
+#elasticsearch_discovery_zen_minimum_master_nodes: 1
+#elasticsearch_discovery_zen_ping_timeout: 5s
+#elasticsearch_discovery_zen_ping_multicast_enabled: "false"
+#elasticsearch_discovery_zen_ping_unicast_hosts: ["127.0.0.1[9300-9400]"]
+
+# ec2 module
+elasticsearch_plugin_aws_version: 2.1.1
+elasticsearch_plugin_aws_ec2_groups: Elasticsearch
+elasticsearch_plugin_aws_ec2_ping_timeout: 5s
+elasticsearch_plugin_aws_access_key: AKIAIWPFDPUIMH5PSC6A
+elasticsearch_plugin_aws_secret_key: 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
+
+elasticsearch_misc_auto_create_index: "true"
+elasticsearch_misc_query_bool_max_clause_count: 4096
+elasticsearch_misc_disable_delete_all_indices: "true"
+elasticsearch_java_opts: "-XX:-UseSuperWord"
+# TODO elasticsearch_plugin_marvel_version: 1.2.1
