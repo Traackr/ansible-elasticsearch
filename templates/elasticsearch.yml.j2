@@ -122,7 +122,7 @@ index.number_of_shards: {{ elasticsearch_index_number_of_shards }}
 #
 # index.number_of_replicas: 1
 {% if elasticsearch_index_number_of_replicas is defined %}
-index.number_of_replicas: {{ elasticsearch_number_of_replicas }}
+index.number_of_replicas: {{ elasticsearch_index_number_of_replicas }}
 {% endif %}
 
 # Note, that for development on a local machine, with small indices, it usually
