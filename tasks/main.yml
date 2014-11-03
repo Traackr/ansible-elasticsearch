@@ -108,3 +108,7 @@
 # Restart Elasticsearch
 - name: Restarting Elasticsearch
   service: name=elasticsearch state=restarted
+
+# Register Elasticsearch service to start on boot
+- name: Ensure Elasticsearch is started on boot
+  service: name=elasticsearch enabled={{ elasticsearch_service_startonboot }}
