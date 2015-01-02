@@ -49,8 +49,10 @@
     regexp='^(cloud.aws.access_key.*)$'
     insertafter='^(cloud.node.auto_attributes.*)$'
     line="cloud.aws.access_key: '{{ elasticsearch_plugin_aws_access_key }}'"
+  when: elasticsearch_plugin_aws_access_key is defined
 - lineinfile: >
     dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
     regexp='^(cloud.aws.secret_key.*)$'
     insertafter='^(cloud.aws.access_key.*)$'
     line="cloud.aws.secret_key: '{{ elasticsearch_plugin_aws_secret_key }}'"
+  when: elasticsearch_plugin_aws_secret_key is defined
