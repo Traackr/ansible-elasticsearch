@@ -20,6 +20,7 @@ elasticsearch_data_dir: /var/lib/elasticsearch
 elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
 elasticsearch_service_startonboot: no
+#elasticsearch_http_cors_enabled: "false"
 
 # Non-Elasticsearch Defaults
 apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
