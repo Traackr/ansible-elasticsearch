@@ -11,6 +11,7 @@
 # - elasticsearch_plugin_aws_ec2_ping_timeout
 # - elasticsearch_plugin_aws_access_key
 # - elasticsearch_plugin_aws_secret_key
+# - elasticsearch_plugin_aws_region
 
 
 - name: Installing AWS Plugin
@@ -56,3 +57,9 @@
     insertafter='^(cloud.aws.access_key.*)$'
     line="cloud.aws.secret_key: '{{ elasticsearch_plugin_aws_secret_key }}'"
   when: elasticsearch_plugin_aws_secret_key is defined
+- lineinfile: >
+    dest="{{ elasticsearch_conf_dir }}/elasticsearch.yml"
+    regexp='^(cloud.aws.region.*)$'
+    insertafter='^(cloud.aws.secret_key.*)$'
+    line="cloud.aws.region: '{{ elasticsearch_plugin_aws_region }}'"
+  when: elasticsearch_plugin_aws_region is defined
