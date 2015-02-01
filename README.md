@@ -98,6 +98,7 @@ The following variables provide a for now limited configuration for the plugin. 
 - elasticsearch_plugin_aws_ec2_ping_timeout
 - elasticsearch_plugin_aws_access_key
 - elasticsearch_plugin_aws_secret_key
+- elasticsearch_plugin_aws_region
 
 ### Installing plugins
 You will need to define an array called `elasticsearch_plugins` in your playbook or inventory, such that:
