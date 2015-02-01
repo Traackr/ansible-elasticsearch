@@ -98,6 +98,12 @@ node.rack: {{ elasticsearch_node_rack }}
 node.max_local_storage_nodes: {{ elasticsearch_node_max_local_storage_nodes }}
 {% endif %}
 
+# Disable network discovery by setting the following (useful for development):
+# node.local: true
+{% if elasticsearch_node_local is defined %}
+node.local: {{ elasticsearch_node_local }}
+{% endif %}
+
 #################################### Index ####################################
 
 # You can set a number of options (such as shard/replica options, mapping
