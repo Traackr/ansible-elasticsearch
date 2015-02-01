@@ -554,3 +554,9 @@ action.disable_delete_all_indices: {{ elasticsearch_misc_disable_delete_all_indi
 {% if elasticsearch_script_disable_dynamic is defined %}
 script.disable_dynamic: {{ elasticsearch_script_disable_dynamic }}
 {% endif %}
+
+################################### CORS Settings #####################################
+
+{% if elasticsearch_http_cors_enabled is defined %}
+http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
+{% endif %}
