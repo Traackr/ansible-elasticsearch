@@ -75,19 +75,20 @@
   shell: "echo Configuring open file limits"
 - lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}' insertafter=EOF line='{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
   when: elasticsearch_max_open_files is defined
+  notify: Restart Elasticsearch
 - lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}' insertafter=EOF line='{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
   when: elasticsearch_max_locked_memory is defined
+  notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/su regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/common-session regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/common-session-noninteractive regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/sudo regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
 - lineinfile: dest=/etc/init.d/elasticsearch regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$' insertafter='^(DAEMON_OPTS=".*CONF_DIR")$' line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
-
-# Configure Elasticsearch Node
-- name: Configuring Elasticsearch Node
-  template: src=elasticsearch.yml.j2 dest={{ elasticsearch_conf_dir }}/elasticsearch.yml owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
-  when: elasticsearch_conf_dir is defined
-- template: src=elasticsearch.default.j2 dest=/etc/default/elasticsearch owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
+  notify: Restart Elasticsearch
 
 # Install AWS Plugin
 - include: aws.yml
@@ -105,10 +106,15 @@
 - include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
 
-# Restart Elasticsearch
-- name: Restarting Elasticsearch
-  service: name=elasticsearch state=restarted
+# Configure Elasticsearch Node
+- name: Configuring Elasticsearch Node
+  template: src=elasticsearch.yml.j2 dest={{ elasticsearch_conf_dir }}/elasticsearch.yml owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
+  when: elasticsearch_conf_dir is defined
+  notify: Restart Elasticsearch
+
+- template: src=elasticsearch.default.j2 dest=/etc/default/elasticsearch owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
+  notify: Restart Elasticsearch
 
 # Register Elasticsearch service to start on boot
 - name: Ensure Elasticsearch is started on boot
-  service: name=elasticsearch enabled={{ elasticsearch_service_startonboot }}
+  service: name=elasticsearch enabled={{ elasticsearch_service_startonboot }} state={{ elasticsearch_service_state }}
