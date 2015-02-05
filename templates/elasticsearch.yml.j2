@@ -395,8 +395,12 @@ discovery.ec2.groups: '{{ elasticsearch_plugin_aws_ec2_groups }}'
 discovery.ec2.ping_timeout: {{ elasticsearch_plugin_aws_ec2_ping_timeout}}
 {% endif %}
 cloud.node.auto_attributes: true
+{% if elasticsearch_plugin_aws_access_key is defined %}
+{% if elasticsearch_plugin_aws_secret_key is defined %}
 cloud.aws.access_key: '{{ elasticsearch_plugin_aws_access_key }}'
 cloud.aws.secret_key: '{{ elasticsearch_plugin_aws_secret_key }}'
+{% endif %}
+{% endif %}
 {% if elasticsearch_plugin_aws_region is defined %}
 cloud.aws.region: {{ elasticsearch_plugin_aws_region}}
 {% endif %}
