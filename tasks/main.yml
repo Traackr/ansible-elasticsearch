@@ -4,6 +4,7 @@
 # Configure timezone
 - name: Configuring timezone
   shell: echo {{ elasticsearch_timezone }} > /etc/timezone; dpkg-reconfigure --frontend noninteractive tzdata
+  when: elasticsearch_timezone is defined
 
 # Update repos
 - name: Install python-software-properties

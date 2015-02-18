@@ -27,6 +27,14 @@
 #  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
 
 # Loop though elasticsearch_plugins and install them
+- name: Just download plugin (for http-basic-plugin)
+  action: >
+    shell mkdir -p {{ elasticsearch_plugin_dir }}/http-basic ; cd {{ elasticsearch_plugin_dir }}/http-basic ; wget {{ item.url }}
+    chdir={{ elasticsearch_home_dir }}
+  sudo: yes
+  when: item.download_only is defined
+  with_items: elasticsearch_plugins
+  ignore_errors: yes
 - name: Installing Plugins by Name
   action: >
     shell bin/plugin -install {{ item.name }}
