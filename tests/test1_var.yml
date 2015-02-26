@@ -15,7 +15,6 @@ elasticsearch_plugins                       :
                                               - { name: 'com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.5' }
                                               - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
                                               - { name: 'lmenezes/elasticsearch-kopf' }
-
 elasticsearch_thread_pools                  :
                                               - "threadpool.bulk.type: fixed"
                                               - "threadpool.bulk.size: 50"
