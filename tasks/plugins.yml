@@ -27,22 +27,13 @@
 #  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
 
 # Loop though elasticsearch_plugins and install them
-- name: Installing Plugins by Name
-  action: >
-    shell bin/plugin -install {{ item.name }}
+
+- name: plugins | Installing Plugins
+  shell: bin/plugin -install {{ item.name }} {{ '-url ' + item.url if item.url is defined else '' }}
     chdir={{ elasticsearch_home_dir }}
-  when: item.url is not defined
   with_items: elasticsearch_plugins
-  ignore_errors: yes
-- name: Installing Plugins by URL
-  action: >
-    shell bin/plugin -install {{ item.name }} -url {{ item.url }}
-    chdir={{ elasticsearch_home_dir }}
-  when: item.url is defined
-  with_items: elasticsearch_plugins
-  ignore_errors: yes
-# Fix permissions
-- file: >
-    path="{{ elasticsearch_plugin_dir }}" state=directory
-    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
-    recurse=yes
+  register: plugins_installed
+  changed_when: "'Installed' in plugins_installed.stdout"
+  failed_when: "plugins_installed.rc != 0 and plugins_installed.stdout.find('already exists. To update the plugin') == -1"
+
+# TODO: an unstall method for plugins (dont need for now)

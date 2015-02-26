@@ -1,0 +1,19 @@
+---
+
+- name: timezone | check current timezone
+  shell: cat /etc/timezone
+  changed_when: 0
+  register: current_zone
+
+- name: timezone | Set timezone variables
+  copy:
+    content={{elasticsearch_timezone}}
+    dest=/etc/timezone
+    owner=root
+    group=root
+    mode=0644
+  when: current_zone.stdout != elasticsearch_timezone
+
+- name: timezone | Run dpkg-reconfigure to configure timezone
+  shell: dpkg-reconfigure --frontend noninteractive tzdata
+  when: current_zone.stdout != elasticsearch_timezone

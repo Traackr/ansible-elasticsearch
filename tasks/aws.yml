@@ -14,12 +14,9 @@
 # - elasticsearch_plugin_aws_region
 
 
-- name: Installing AWS Plugin
-  action: >
-    shell bin/plugin -install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
+- name: aws | Installing AWS Plugin
+  shell: bin/plugin -install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
     chdir={{ elasticsearch_home_dir }}
-# Fix permissions
-- file: >
-    path="{{ elasticsearch_plugin_dir }}" state=directory
-    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
-    recurse=yes
+  register: aws_plugins_installed
+  changed_when: "'Installed' in aws_plugins_installed.stdout"
+  failed_when: "aws_plugins_installed.rc != 0 and aws_plugins_installed.stdout.find('already exists. To update the plugin') == -1"
