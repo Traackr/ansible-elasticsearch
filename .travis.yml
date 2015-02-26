@@ -44,6 +44,10 @@ after_failure:
     - sudo cat ansible_output
     - echo -e "\e[31m######netstat#######\e[0m"
     - sudo netstat -atnlp
+    - echo -e "\e[31m######ps#######\e[0m"
+    - sudo ps aux | grep java
+    - echo -e "\e[31m######CurlElasticsearch#######\e[0m"
+    - curl 127.0.0.1:9200
     - echo -e "\e[31m######AnsibleFacts#######\e[0m"
     - ansible -i 127.0.0.1, -m setup all -c local
 
