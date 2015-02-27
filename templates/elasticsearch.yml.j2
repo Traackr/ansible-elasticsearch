@@ -602,3 +602,7 @@ script.disable_dynamic: {{ elasticsearch_script_disable_dynamic }}
 {% if elasticsearch_http_cors_enabled is defined %}
 http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
 {% endif %}
+
+{% if elasticsearch_http_cors_allow_origin is defined %}
+http.cors.allow-origin: {{ elasticsearch_http_cors_allow_origin}}
+{% endif %}
