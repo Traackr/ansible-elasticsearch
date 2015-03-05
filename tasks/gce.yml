@@ -1,0 +1,25 @@
+---
+# Install GCE Plugin (see https://github.com/elasticsearch/elasticsearch-cloud-gce)
+#
+# The following variables need to be defined in your playbook or inventory:
+# - elasticsearch_plugin_gce_version
+#
+# The following variables provide a for now limited configuration for the plugin.
+# More options may be available in the future.
+# (see http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/modules-discovery-ec2.html):
+
+# - elasticsearch_plugin_gce_project_id
+# - elasticsearch_plugin_gce_region
+
+
+- name: Installing GCE Plugin
+  action: >
+    shell bin/plugin install elasticsearch/elasticsearch-cloud-gce/{{ elasticsearch_plugin_gce_version }}
+    chdir={{ elasticsearch_home_dir }}
+
+# Fix permissions
+- file: >
+    path="{{ elasticsearch_plugin_dir }}" state=directory
+    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
+    recurse=yes
+

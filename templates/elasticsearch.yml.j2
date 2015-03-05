@@ -385,6 +385,18 @@ indices.recovery.concurrent_streams: {{ elasticsearch_recovery_concurrent_stream
 
 ################################## Discovery ##################################
 
+{% if elasticsearch_plugin_gce_is defined %}
+
+discovery.type: gce
+{% if elasticsearch_plugin_gce_project_id defined %}
+cloud.gce.project_id: '{{ elasticsearch_plugin_gce_project_id }}'
+{% endif %}
+{% if elasticsearch_plugin_gce_region defined %}
+cloud.gce.zone: '{{ elasticsearch_plugin_gce_region }}'
+{% endif %}
+
+{% endif %}
+
 {% if elasticsearch_plugin_aws_version is defined %}
 
 discovery.type: ec2
