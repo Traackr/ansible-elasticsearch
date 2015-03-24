@@ -170,6 +170,9 @@ index.refresh_interval: {{ elasticsearch_index_refresh_interval }}
 {% if elasticsearch_index_store_throttle_type is defined %}
 index.store.throttle.type: {{ elasticsearch_index_store_throttle_type }}
 {% endif %}
+{% if elasticsearch_index_store_throttle_max_bytes_per_sec is defined %}
+indices.store.throttle.max_bytes_per_sec: {{ elasticsearch_index_store_throttle_max_bytes_per_sec }}
+{% endif %}
 {% if elasticsearch_index_merge_scheduler_max_thread_count is defined %}
 index.merge.scheduler.max_thread_count: {{ elasticsearch_index_merge_scheduler_max_thread_count }}
 {% endif %}
