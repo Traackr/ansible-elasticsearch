@@ -387,7 +387,9 @@ indices.recovery.concurrent_streams: {{ elasticsearch_recovery_concurrent_stream
 
 {% if elasticsearch_plugin_aws_version is defined %}
 
+{% if elasticsearch_plugin_aws_discovery_disable is not defined %}
 discovery.type: ec2
+{% endif %}
 {% if elasticsearch_plugin_aws_ec2_groups is defined %}
 discovery.ec2.groups: '{{ elasticsearch_plugin_aws_ec2_groups }}'
 {% endif %}
