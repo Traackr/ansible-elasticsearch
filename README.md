@@ -8,6 +8,14 @@ This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](
 - Support for installing the [Sematext SPM](http://www.sematext.com/spm/) monitor
 - Support for installing the [Marvel](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
 
+## Installing
+
+Install [ansible-elasticsearch](https://galaxy.ansible.com/list#/roles/181) via ansible galaxy:
+
+```
+ansible-galaxy install gpstathis.elasticsearch
+```
+
 ## Testing locally with Vagrant
 A sample [Vagrant](http://www.vagrantup.com/) configuration is provided to help with local testing. After installing Vagrant, run `vagrant up` at the root of the project to get an VM instance bootstrapped and configured with a running instance of Elasticsearch. Look at `vars/vagrant.yml` and `defaults/main.yml` for the variables that will be substituted in `templates/elasticsearch.yml.j2`.
 
