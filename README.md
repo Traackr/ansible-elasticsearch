@@ -55,7 +55,7 @@ spm_client_token=<your SPM token here>
 ```
 
 ### Edit your vars/my-vars.yml
-See `vars/sample.yml` and `vars/vagrant.yml` for exmaple variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to defile in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
+See `vars/sample.yml` and `vars/vagrant.yml` for example variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to defile in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
 
 ### Edit your my-playbook-main.yml
 Example `my-playbook-main.yml`:
