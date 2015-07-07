@@ -17,7 +17,6 @@
   action: >
     shell bin/plugin --remove cloud-aws
     chdir={{ elasticsearch_home_dir }}
-  with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: Installing AWS Plugin
   action: >

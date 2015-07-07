@@ -16,7 +16,6 @@
   action: >
     shell bin/plugin --remove marvel
     chdir={{ elasticsearch_home_dir }}
-  with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: Installing Marvel Plugin
   action: >
