@@ -12,7 +12,12 @@
 # - elasticsearch_plugin_marvel_agent_interval
 # - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
-
+- name: Removing Marvel Plugin if it exists
+  action: >
+    shell bin/plugin --remove marvel
+    chdir={{ elasticsearch_home_dir }}
+  with_items: elasticsearch_plugins
+  ignore_errors: yes
 - name: Installing Marvel Plugin
   action: >
     shell bin/plugin -i elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
