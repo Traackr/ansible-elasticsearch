@@ -106,6 +106,9 @@
 - include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
 
+- include: esusers.yml
+  when: (elasticsearch_esusers_username is defined)
+
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
   template: src=elasticsearch.yml.j2 dest={{ elasticsearch_conf_dir }}/elasticsearch.yml owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
