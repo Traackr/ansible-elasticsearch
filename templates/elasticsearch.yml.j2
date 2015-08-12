@@ -622,3 +622,27 @@ http.cors.allow-credentials: {{ elasticsearch_http_cors_allow-credentials }}
 cluster.routing.allocation.awareness.attributes: zone
 node.zone: {{ facter_ec2_placement_availability_zone }}
 {% endif %}
+
+
+################################### Shield Settings #####################################
+
+{% if elasticsearch_plugin_shield_ssl_keystore_path is defined %}
+shield.ssl.keystore.path: {{ elasticsearch_plugin_shield_ssl_keystore_path }}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_ssl_keystore_password is defined %}
+shield.ssl.keystore.password: {{ elasticsearch_plugin_shield_ssl_keystore_password }}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_ssl_hostname_verification is defined %}
+shield.ssl.hostname_verification: {{ elasticsearch_plugin_shield_ssl_hostname_verification }}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_transport_ssl is defined %}
+shield.transport.ssl: {{ elasticsearch_plugin_shield_transport_ssl }}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_http_ssl is defined %}
+shield.http.ssl: {{ elasticsearch_plugin_shield_http_ssl }}
+{% endif %}
+
