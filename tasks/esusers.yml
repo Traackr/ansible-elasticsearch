@@ -1,6 +1,6 @@
 - name: Delete user from esuser realm if it exists 
   action: >
-    userdel "{{ elasticsearch_esusers_username }}"
+    userdel "{{ elasticsearch_plugin_shield_esusers_username }}"
 - name: Add user to esuser realm
   action: >
-    esusers useradd "{{ elasticsearch_esusers_username }}" -p "{{ elasticsearch_esusers_password }}" -r "{{ elasticsearch_esusers_roles }}"
+    esusers useradd "{{ elasticsearch_plugin_shield_esusers_username }}" -p "{{ elasticsearch_plugin_shield_esusers_password }}" -r "{{ elasticsearch_plugin_shield_esusers_roles }}"

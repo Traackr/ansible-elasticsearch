@@ -107,7 +107,7 @@
   when: (elasticsearch_plugin_marvel_version is defined)
 
 - include: esusers.yml
-  when: (elasticsearch_esusers_username is defined)
+  when: (elasticsearch_plugin_shield_esusers_username is defined)
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
