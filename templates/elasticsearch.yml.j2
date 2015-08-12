@@ -608,6 +608,13 @@ script.disable_dynamic: {{ elasticsearch_script_disable_dynamic }}
 http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
 {% endif %}
 
+{% if elasticsearch_http_cors_allow-origin is defined %}
+http.cors.allow-origin: {{ elasticsearch_http_cors_allow-origin }}
+{% endif %}
+
+{% if elasticsearch_http_cors_allow-credentials is defined%}
+http.cors.allow-credentials: {{ elasticsearch_http_cors_allow-credentials }}
+{% endif %}
 
 ################################### Awareness Settings #####################################
 
