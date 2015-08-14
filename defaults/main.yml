@@ -26,3 +26,5 @@ elasticsearch_service_state: started
 # Non-Elasticsearch Defaults
 apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
 elasticsearch_install_java: "true"
+#uncomment to enable shield
+#elasticsearch_plugin_shield_enabled: "true"

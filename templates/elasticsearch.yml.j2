@@ -625,6 +625,8 @@ node.zone: {{ facter_ec2_placement_availability_zone }}
 
 
 ################################### Shield Settings #####################################
+{% if elasticsearch_plugin_shield_enabled is defined %}
+
 
 {% if elasticsearch_plugin_shield_ssl_keystore_path is defined %}
 shield.ssl.keystore.path: {{ elasticsearch_plugin_shield_ssl_keystore_path }}
@@ -646,3 +648,8 @@ shield.transport.ssl: {{ elasticsearch_plugin_shield_transport_ssl }}
 shield.http.ssl: {{ elasticsearch_plugin_shield_http_ssl }}
 {% endif %}
 
+{% else }
+
+shield.enabled: false
+
+{% endif %}
