@@ -625,7 +625,7 @@ node.zone: {{ facter_ec2_placement_availability_zone }}
 
 
 ################################### Shield Settings #####################################
-{% if elasticsearch_plugin_shield_enabled is defined %}
+{% if elasticsearch_plugin_shield_enabled is defined and elasticsearch_plugin_shield_enabled == "true"  %}
 
 
 {% if elasticsearch_plugin_shield_ssl_keystore_path is defined %}
@@ -646,6 +646,32 @@ shield.transport.ssl: {{ elasticsearch_plugin_shield_transport_ssl }}
 
 {% if elasticsearch_plugin_shield_http_ssl is defined %}
 shield.http.ssl: {{ elasticsearch_plugin_shield_http_ssl }}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_audit_enabled is defined %}
+shield.audit.enabled: {{elasticsearch_plugin_shield_audit_enabled}}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_realms is defined %}
+shield.authc.realms:
+{% if elasticsearch_plugin_shield_realms_esusers is defined %}
+  esusers:
+    type: esusers
+    order: {{ elasticsearch_plugin_shield_realms_esusers.order }}
+    enabled: {{ elasticsearch_plugin_shield_realms_esusers.enabled }}
+{% endif %}
+
+{% if elasticsearch_plugin_shield_realms_active_directory is defined %}
+  active_directory:
+    type: active_directory
+    order: {{ elasticsearch_plugin_shield_realms_active_directory.order }}
+    enabled: {{ elasticsearch_plugin_shield_realms_active_directory.enabled }}
+    domain_name: {{ elasticsearch_plugin_shield_realms_active_directory.domain_name }}
+    unmapped_groups_as_roles: {{ elasticsearch_plugin_shield_realms_active_directory.unmapped_groups_as_roles }}
+    url: {{ elasticsearch_plugin_shield_realms_active_directory.url }}
+    #cache.ttl: 1m
+{% endif %}
+
 {% endif %}
 
 {% else %}
