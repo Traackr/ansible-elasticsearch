@@ -24,6 +24,7 @@ elasticsearch_service_startonboot: no
 elasticsearch_service_state: started
 
 # Non-Elasticsearch Defaults
+elasticsearch_timezone: UTC
 apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
 elasticsearch_install_java: "true"
 #uncomment to enable shield
