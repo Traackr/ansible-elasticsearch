@@ -110,7 +110,9 @@
   when: (elasticsearch_esusers is defined)
 
 - include: shield_config.yml
+  tags: shield_config_files
   when: (elasticsearch_shield_files is defined)
+  notify: Restart Elasticsearch
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node

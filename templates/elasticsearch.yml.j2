@@ -641,6 +641,10 @@ shield.ssl.keystore.path: {{ elasticsearch_plugin_shield_ssl_keystore_path }}
 shield.ssl.keystore.password: {{ elasticsearch_plugin_shield_ssl_keystore_password }}
 {% endif %}
 
+{% if elasticsearch_plugin_shield_ssl_keystore_key_password is defined %}
+shield.ssl.keystore.key_password: {{ elasticsearch_plugin_shield_ssl_keystore_key_password }}
+{% endif %}
+
 {% if elasticsearch_plugin_shield_ssl_hostname_verification is defined %}
 shield.ssl.hostname_verification: {{ elasticsearch_plugin_shield_ssl_hostname_verification }}
 {% endif %}
