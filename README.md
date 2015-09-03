@@ -186,40 +186,23 @@ elasticsearch_install_java: "false"
 
 ## Include role in a larger playbook
 ### Add this role as a git submodule
-Assuming your playbook structure is such as:
-```
-- my-master-playbook
-  |- vars
-  |- roles
-  |- my-master-playbook-main.yml
-  \- my-master-inventory.ini
-```
-
-Checkout this project as a submodule under roles:
+Checkout this project as a submodule under roles/:
 
 ```
-$  cd roles
-$  git submodule add git://github.com/traackr/ansible-elasticsearch.git ./ansible-elasticsearch
-$  git submodule update --init
-$  git commit ./submodule -m "Added submodule as ./subm"
+$  git submodule add git://github.com/traackr/ansible-elasticsearch.git roles/mpx.elasticsearch
 ```
 
-### Include this playbook as a role in your master playbook
-Example `my-master-playbook-main.yml`:
+### Include this role in your playbook
+Example playbook setup:
 
 ```
 ---
-
-#########################
-# Elasticsearch install #
-#########################
-
 - hosts: all_nodes
   user: ubuntu
   sudo: yes
 
   roles:
-    - ansible-elasticsearch
+    - mpx.elasticsearch
 
   vars_files:
     - vars/my-vars.yml
