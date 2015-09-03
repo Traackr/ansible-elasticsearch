@@ -22,11 +22,10 @@ script:
   # Run the role/playbook with ansible-playbook.
   - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
 
-  # See what happens on second run:
-  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
   # Run the role/playbook again, checking to make sure it's idempotent.
+  # We allow one change as the task only updates a variable for ansible (not changing machine state)
   - >
     ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
-    | grep -q 'changed=0.*failed=0'
+    | grep -q 'changed=1.*failed=0'
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
