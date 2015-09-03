@@ -73,7 +73,7 @@
 
 # Configure open file limits
 - name: Configuring open file limits
-- lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}' insertafter=EOF line='{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+  lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}' insertafter=EOF line='{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
   when: elasticsearch_max_open_files is defined
   notify: Restart Elasticsearch
 - lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}' insertafter=EOF line='{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
