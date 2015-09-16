@@ -20,7 +20,7 @@
   ignore_errors: yes
 - name: Installing AWS Plugin
   action: >
-    shell bin/plugin -install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
+    shell bin/plugin --install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
     chdir={{ elasticsearch_home_dir }}
 # Fix permissions
 - file: >
