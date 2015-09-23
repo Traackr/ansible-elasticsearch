@@ -8,6 +8,8 @@ This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](
 - Support for installing the [Sematext SPM](http://www.sematext.com/spm/) monitor
 - Support for installing the [Marvel](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
 
+- Support for installing the [Shield](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
+
 ## Testing locally with Vagrant
 A sample [Vagrant](http://www.vagrantup.com/) configuration is provided to help with local testing. After installing Vagrant, run `vagrant up` at the root of the project to get an VM instance bootstrapped and configured with a running instance of Elasticsearch. Look at `vars/vagrant.yml` and `defaults/main.yml` for the variables that will be substituted in `templates/elasticsearch.yml.j2`.
 
@@ -176,6 +178,38 @@ The following variables provide configuration for the plugin. More options may b
 - elasticsearch_plugin_marvel_agent_interval
 - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
+
+### Configuring Shield
+The following variables need to be defined in your playbook or inventory:
+
+- elasticsearch_plugin_shield_enabled
+
+The following variables provide configuration for the plugin. More options may be available in the future (see [https://www.elastic.co/guide/en/shield/current/reference.html](https://www.elastic.co/guide/en/shield/current/reference.html)):
+- elasticsearch_plugin_shield_ssl_keystore_path
+- elasticsearch_plugin_shield_ssl_keystore_password
+- elasticsearch_plugin_shield_ssl_keystore_key_password
+- elasticsearch_plugin_shield_ssl_hostname_verification
+- elasticsearch_plugin_shield_transport_ssl
+- elasticsearch_plugin_shield_http_ssl
+- elasticsearch_plugin_shield_audit_enabled
+- elasticsearch_plugin_shield_realms
+- elasticsearch_plugin_shield_realms_esusers
+  + order: 0
+  + enabled: "false"
+   
+- elasticsearch_plugin_shield_realms_active_directory
+  + order: 1
+  + domain_name: example.com
+  + unmapped_groups_as_roles: "true"
+  + url: ldap://parsecdc005.pareto.no
+  + enabled: "true"
+   
+- elasticsearch_esusers
+  + - {username:demouser, password: mypass, role: myrole}
+ 
+ - elasticsearch_shield_files: path to folder with Shield configuration files which will be copied into /etc/elasticsearch/shield
+
+
 ## Disable Java installation
 
 If you prefer to skip the built-in installation of the Oracle JRE, use the `elasticsearch_install_java` flag:
@@ -237,3 +271,5 @@ MIT
 # Author Information
 
 George Stathis - gstathis [at] traackr.com
+Mats Olsen molsen [at] comperiosearch.com
+Christoffer Vig cvig [at] comperiosearch.com

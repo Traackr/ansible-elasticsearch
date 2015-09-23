@@ -208,6 +208,14 @@ path.logs: {{ elasticsearch_log_dir }}
 path.plugins: {{ elasticsearch_plugin_dir }}
 {% endif %}
 
+
+# Path to snapshot/restore repost
+#path.repo: //pppp
+{% if elasticsearch_repo_dir is defined %}
+path.repo: {{ elasticsearch_repo_dir }}
+{% endif %}
+
+
 #################################### Plugin ###################################
 
 # If a plugin listed here is not installed for current node, the node will not start.
