@@ -26,7 +26,7 @@ describe "Elastic Search setup" do
   end
 
   describe file('/etc/elasticsearch/elasticsearch.yml') do
-    it { should contain "cluster.name: #{ANSIBLE_VARS.fetch('elasticsearch_cluster_name', 'FAIL')}" }
+    its(:content) { should include("cluster.name: #{ANSIBLE_VARS.fetch('elasticsearch_cluster_name', 'FAIL')}") }
   end
 
   context "AWS plugin vars set", if: ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_version', false) do
@@ -35,19 +35,19 @@ describe "Elastic Search setup" do
     end
 
     describe file('/etc/elasticsearch/elasticsearch.yml') do
-      it { should contain "discovery.type: ec2" }
-      it { should contain "cloud.aws.access_key: '#{ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_access_key', 'FAIL')}'" }
-      it { should contain "cloud.aws.secret_key: '#{ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_secret_key', 'FAIL')}'" }
+      its(:content) { should include("discovery.type: ec2") }
+      its(:content) { should include("cloud.aws.access_key: '#{ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_access_key', 'FAIL')}'") }
+      its(:content) { should include("cloud.aws.secret_key: '#{ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_secret_key', 'FAIL')}'") }
     end
   end
 
   context "No AWS plugin vars set", if: !ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_version', false) do
     describe file('/usr/share/elasticsearch/plugins/cloud-aws/') do
-      it { should_not exist }
+      its(:content) { should_not exist }
     end
 
     describe file('/etc/elasticsearch/elasticsearch.yml') do
-      it { should_not contain "discovery.type: ec2" }
+      its(:content) { should_not include("discovery.type: ec2") }
     end
   end
 end
