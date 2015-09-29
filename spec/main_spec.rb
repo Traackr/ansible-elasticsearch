@@ -15,6 +15,15 @@ describe "Elastic Search setup" do
 
   describe file('/etc/elasticsearch/elasticsearch.yml') do
     it { should be_file }
+    if ANSIBLE_VARS.fetch('elasticsearch_cluster_name', false)
+      its(:content) { should include("cluster.name: #{ANSIBLE_VARS.fetch('elasticsearch_cluster_name', 'FAIL')}") }
+    end
+    if ANSIBLE_VARS.fetch('elasticsearch_groovy_sandbox', false)
+      its(:content) { should include("script.groovy.sandbox.enabled: true") }
+    end
+    ANSIBLE_VARS.fetch('elasticsearch_allowed_scripting_actions', []).each do |action|
+      its(:content) { should include("script.#{action}: on") }
+    end
   end
 
   describe file('/etc/elasticsearch/logging.yml') do
