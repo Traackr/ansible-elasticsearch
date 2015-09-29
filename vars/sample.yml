@@ -22,3 +22,7 @@ elasticsearch_misc_auto_create_index: "true"
 elasticsearch_misc_query_bool_max_clause_count: 4096
 elasticsearch_misc_disable_delete_all_indices: "true"
 elasticsearch_java_opts: "-XX:-UseSuperWord"
+
+elasticsearch_groovy_sandbox: true
+elasticsearch_allowed_scripting_actions:
+  - search

@@ -615,3 +615,14 @@ http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
 cluster.routing.allocation.awareness.attributes: zone
 node.zone: {{ facter_ec2_placement_availability_zone }}
 {% endif %}
+
+#### Groovy sandbox and scripted search (ES >=1.6.0) #############
+{% if elasticsearch_groovy_sandbox is defined %}
+script.groovy.sandbox.enabled: true
+{% endif %}
+
+{% if elasticsearch_allowed_scripting_actions is defined %}
+{% for action in elasticsearch_allowed_scripting_actions %}
+script.{{action}}: on
+{% endfor %}
+{% endif%}
