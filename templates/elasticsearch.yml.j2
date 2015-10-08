@@ -608,6 +608,10 @@ script.disable_dynamic: {{ elasticsearch_script_disable_dynamic }}
 http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
 {% endif %}
 
+{% if elasticsearch_script_groovy_sandbox_enabled is defined %}
+script.groovy.sandbox.enabled: {{ elasticsearch_script_groovy_sandbox_enabled }}
+{% endif %}
+
 
 ################################### Awareness Settings #####################################
 
