@@ -6,9 +6,6 @@
   shell: echo {{ elasticsearch_timezone }} > /etc/timezone; dpkg-reconfigure --frontend noninteractive tzdata
   when: elasticsearch_timezone is defined
 
-  # See if that solves Java install bug:
-- apt: pkg=python-software-properties state=present
-
 - name: Add specified repos and update apt index
   apt_repository: repo={{ item }} state=present update_cache=yes
   with_items: elasticsearch_apt_repos
