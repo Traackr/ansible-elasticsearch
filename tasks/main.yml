@@ -94,8 +94,6 @@
   notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/sudo regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/init.d/elasticsearch regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$' insertafter='^(DAEMON_OPTS=".*CONF_DIR")$' line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
-  notify: Restart Elasticsearch
 
 # Install AWS Plugin
 - include: aws.yml
@@ -108,10 +106,6 @@
 # Install custom JARs
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
-
-# Install Marvel Plugin
-- include: marvel.yml
-  when: (elasticsearch_plugin_marvel_version is defined)
 
 - include: esusers.yml
   when: (elasticsearch_esusers is defined)
