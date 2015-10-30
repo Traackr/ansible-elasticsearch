@@ -165,6 +165,8 @@ index.mapper_dynamic: {{ elasticsearch_index_mapper_dynamic }}
 index.query.bool.max_clause_count: {{ elasticsearch_misc_query_bool_max_clause_count }}
 {% endif %}
 
+indices.analysis.hunspell.dictionary.location: lang/hunspell
+
 #################################### Paths ####################################
 
 # Path to directory containing configuration (this file and logging.yml):
@@ -632,14 +634,14 @@ node.zone: {{ facter_ec2_placement_availability_zone }}
 {% endif %}
 
 
-################################### Shield Settings #####################################
+
 {% if elasticsearch_plugin_shield_enabled is defined %}
 {% if elasticsearch_plugin_shield_enabled == "false"  %}
 
 shield.enabled: false
 
 {% else %}
-
+################################### Shield Settings #####################################
 
 {% if elasticsearch_plugin_shield_ssl_keystore_path is defined %}
 shield.ssl.keystore.path: {{ elasticsearch_plugin_shield_ssl_keystore_path }}
@@ -692,4 +694,21 @@ shield.authc.realms:
 {% endif %}
 
 
+{% endif %}
+
+{% if elasticsearch_plugin_mcf is defined %}
+################################### ManifoldCF Settings #####################################
+{% if elasticsearch_plugin_mcf_allow_field_prefix is defined %}
+mcf.allow_field_prefix: {{elasticsearch_plugin_mcf_allow_field_prefix}}
+{% endif %}
+
+{% if elasticsearch_plugin_mcf_deny_field_prefix is defined %}
+mcf.deny_field_prefix: {{elasticsearch_plugin_mcf_deny_field_prefix}}
+{% endif %}
+
+{% endif %}
+
+{% if elasticsearch_lang_config_files_hunspell_destination is defined %}
+indices.analysis.hunspell.dictionary.location: {{elasticsearch_lang_config_files_hunspell_destination}}
+indices.analysis.hunspell.dictionary.ignore_case: {{elasticsearch_lang_hunspell_global_ignore_case}}
 {% endif %}

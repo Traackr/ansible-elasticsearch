@@ -114,6 +114,16 @@
   when: (elasticsearch_shield_files is defined)
   notify: Restart Elasticsearch
 
+
+- name: make sure config lang dir exists if elasticsearch_lang_config_files
+  file: path=/etc/elasticsearch/config/lang/ state=directory
+  when: (elasticsearch_lang_config_files is defined)
+
+- name: copy in language files
+  synchronize: src={{elasticsearch_lang_config_files }} dest=/etc/elasticsearch/config/lang/
+  when: (elasticsearch_lang_config_files is defined)
+  notify: Restart Elasticsearch
+
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
   tags: elasticsearch_config
