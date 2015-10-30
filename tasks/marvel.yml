@@ -14,12 +14,12 @@
 
 - name: Removing Marvel Plugin if it exists
   action: >
-    shell bin/plugin --remove marvel
+    shell bin/plugin remove marvel
     chdir={{ elasticsearch_home_dir }}
   ignore_errors: yes
 - name: Installing Marvel Plugin
   action: >
-    shell bin/plugin -i elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
+    shell bin/plugin install elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
     chdir={{ elasticsearch_home_dir }}
 # Fix permissions
 - file: >

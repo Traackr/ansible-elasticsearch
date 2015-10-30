@@ -30,3 +30,4 @@ elasticsearch_install_java: "true"
 #elasticsearch_repo_dir: path to snapshot restore location
 #uncomment to enable shield
 #elasticsearch_plugin_shield_enabled: "true"
+elasticsearch_lang_hunspell_global_ignore_case: false
