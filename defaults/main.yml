@@ -32,4 +32,4 @@ elasticsearch_install_java: "true"
 #elasticsearch_plugin_shield_enabled: "true"
 
 elasticsearch_repo_name: backups
-elasticsearch_snapshot_name:  snapshot
+elasticsearch_backup_host: http://localhost:9200

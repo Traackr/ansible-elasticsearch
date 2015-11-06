@@ -137,3 +137,16 @@
 # Register Elasticsearch service to start on boot
 - name: Ensure Elasticsearch is started on boot
   service: name=elasticsearch enabled={{ elasticsearch_service_startonboot }} state={{ elasticsearch_service_state }}
+
+
+# restore elasticsearch snapshot
+- name: restore elasticsearch snapshot
+  include: es_restore.yml
+  tags: elasticsearch_restore
+  when: elasticsearch_snapshot_restore_name is defined
+
+# create  elasticsearch snapshot
+- name: restore elasticsearch snapshot
+  include: es_snapshot.yml
+  tags: elasticsearch_snapshot
+  when: elasticsearch_snapshot_name is defined

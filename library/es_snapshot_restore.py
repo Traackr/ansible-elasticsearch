@@ -1,7 +1,7 @@
 #!/usr/bin/python
 __author__ = 'cvig'
 
-import elasticsearch
+import logging
 from elasticsearch import Elasticsearch
 
 
@@ -58,7 +58,7 @@ class SnapRestore():
             self.module.exit_json(failed=True, msg=msg)
 
         #
-        #except Exception as err:
+        # except Exception as err:
         #    print err
         #    module.exit_json(failed=True, msg="There was some kind of error %s" % err)
 
@@ -69,7 +69,7 @@ def main():
             state=dict(default='present', choices=['present', 'absent']),
             repository_name=dict(required=True, type='str'),
             elasticsearch_host=dict(required=True, type='str'),
-            snapshot_indices=dict(required=True, type='str'),
+            snapshot_indices=dict(required=False, type='str'),
             snapshot_name=dict(required=True, type='str'),
             repository_path=dict(required=True, type='str'),
             mode=dict(required=True, choices=['snapshot', 'restore'], type='str')
@@ -87,4 +87,5 @@ def main():
 
 # import module snippets
 from ansible.module_utils.basic import *
+logging.basicConfig(level=logging.DEBUG)
 main()
