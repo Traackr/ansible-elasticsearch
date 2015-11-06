@@ -34,6 +34,7 @@
   with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: Installing Plugins by Name
+#  elasticsearch_plugin: state=present name={{ item.name}}
   action: >
     shell bin/plugin -install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
@@ -41,12 +42,14 @@
   with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: Installing Plugins by URL
+#  elasticsearch_plugin: state=present url={{ item.url}} name={{item.name}}
   action: >
     shell bin/plugin -install {{ item.name }} -url {{ item.url }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is defined
   with_items: elasticsearch_plugins
   ignore_errors: yes
+
 # Fix permissions
 - file: >
     path="{{ elasticsearch_plugin_dir }}" state=directory
