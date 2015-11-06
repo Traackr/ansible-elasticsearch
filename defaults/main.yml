@@ -4,7 +4,7 @@
 elasticsearch_user: elasticsearch
 elasticsearch_group: elasticsearch
 elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/elasticsearch
-elasticsearch_version: 1.4.2
+elasticsearch_version: 1.7.2
 elasticsearch_apt_repos:
   - 'ppa:webupd8team/java'
 elasticsearch_apt_java_package: oracle-java7-installer
@@ -29,3 +29,6 @@ apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
 elasticsearch_install_java: "true"
 #uncomment to enable shield
 #elasticsearch_plugin_shield_enabled: "true"
+
+elasticsearch_repo_name: backups
+elasticsearch_snapshot_name:  snapshot
