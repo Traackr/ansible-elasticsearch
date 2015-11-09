@@ -39,7 +39,7 @@
 
 # Download deb if needed
 - name: Download Elasticsearch deb
-  get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+  get_url: url={{ elasticsearch_download_url }}/{{ elasticsearch_version }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
   when: version_exists.stdout == 'no'
 
 # Uninstall previous version if applicable
