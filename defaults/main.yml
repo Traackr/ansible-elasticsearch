@@ -20,6 +20,8 @@ elasticsearch_data_dir: /var/lib/elasticsearch
 elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
 elasticsearch_service_startonboot: no
+elasticsearch_timezone: "Etc/UTC"  # Default to UTC
+
 #elasticsearch_http_cors_enabled: "false"
 elasticsearch_service_state: started
 

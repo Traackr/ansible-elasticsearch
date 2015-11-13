@@ -1,0 +1,26 @@
+---
+
+- name: post-run | Ensure plugins directory permission are correct
+  file:
+    path="{{ elasticsearch_plugin_dir }}"
+    state=directory
+    owner={{ elasticsearch_user }}
+    group={{ elasticsearch_group }}
+    recurse=yes
+
+- name: post-run | Ensure Elasticsearch is running and started on boot
+  service:
+    name=elasticsearch
+    enabled={{ elasticsearch_service_startonboot }}
+    state={{ elasticsearch_service_state }}
+  when: installed_version.stat.exists
+
+# Flush handlers to restart elastic if needed
+- meta: flush_handlers
+
+- name: post-run | Check http port is open and running version. timeout 160s
+  wait_for:
+    host={{ '127.0.0.1' if elasticsearch_network_bind_host is not defined or elasticsearch_network_bind_host == '0.0.0.0' else elasticsearch_network_bind_host }}
+    port={{ elasticsearch_network_http_port | default('9200') }}
+    timeout=160
+  when: elasticsearch_service_state == "started"

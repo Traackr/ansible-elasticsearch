@@ -27,37 +27,25 @@
 #  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
 
 # Loop though elasticsearch_plugins and install them
-- name: Removing Plugins if they exist
-  action: >
-    shell bin/plugin --remove {{ item.name }}
+
+- name: plugins | Removing Plugins if they exist
+  shell: bin/plugin --remove {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   when: item.name is defined
   with_items: elasticsearch_plugins
   ignore_errors: yes
-- name: Download only plugins
-  action: >
-    shell mkdir -p {{ elasticsearch_plugin_dir }}/{{ item.name }} ; cd {{ elasticsearch_plugin_dir }}/{{ item.name }} ; wget {{ item.url }}
+- name: plugins | Installing Plugins
+  shell: bin/plugin -install {{ item.name }} {{ '-url ' + item.url if item.url is defined else '' }}
+    chdir={{ elasticsearch_home_dir }}
+  when: item.download_only is not defined
+  with_items: elasticsearch_plugins
+  register: plugins_installed
+  changed_when: "'Installed' in plugins_installed.stdout"
+  failed_when: "plugins_installed.rc != 0 and plugins_installed.stdout.find('already exists. To update the plugin') == -1"
+- name: plugins | Download only plugins
+  shell: mkdir -p {{ elasticsearch_plugin_dir }}/{{ item.name }} ; cd {{ elasticsearch_plugin_dir }}/{{ item.name }} ; wget {{ item.url }}
     chdir={{ elasticsearch_home_dir }}
   sudo: yes
   when: item.download_only is defined and item.name is defined
   with_items: elasticsearch_plugins
   ignore_errors: yes
-- name: Installing Plugins by Name
-  action: >
-    shell bin/plugin -install {{ item.name }}
-    chdir={{ elasticsearch_home_dir }}
-  when: item.url is not defined
-  with_items: elasticsearch_plugins
-  ignore_errors: yes
-- name: Installing Plugins by URL
-  action: >
-    shell bin/plugin -install {{ item.name }} -url {{ item.url }}
-    chdir={{ elasticsearch_home_dir }}
-  when: item.url is defined and item.download_only is not defined
-  with_items: elasticsearch_plugins
-  ignore_errors: yes
-# Fix permissions
-- file: >
-    path="{{ elasticsearch_plugin_dir }}" state=directory
-    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
-    recurse=yes
