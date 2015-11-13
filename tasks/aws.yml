@@ -16,6 +16,7 @@
 - name: aws | Removing AWS Plugin if it exists
   shell: bin/plugin --remove cloud-aws
     chdir={{ elasticsearch_home_dir }}
+  when: elasticsearch_plugin_aws_reinstall is defined and elasticsearch_plugin_aws_reinstall == True
   ignore_errors: yes
 - name: aws | Installing AWS Plugin
   shell: bin/plugin -install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
