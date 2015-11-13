@@ -164,6 +164,18 @@ index.mapper_dynamic: {{ elasticsearch_index_mapper_dynamic }}
 {% if elasticsearch_misc_query_bool_max_clause_count is defined %}
 index.query.bool.max_clause_count: {{ elasticsearch_misc_query_bool_max_clause_count }}
 {% endif %}
+{% if elasticsearch_index_refresh_interval is defined %}
+index.refresh_interval: {{ elasticsearch_index_refresh_interval }}
+{% endif %}
+{% if elasticsearch_index_store_throttle_type is defined %}
+index.store.throttle.type: {{ elasticsearch_index_store_throttle_type }}
+{% endif %}
+{% if elasticsearch_index_store_throttle_max_bytes_per_sec is defined %}
+indices.store.throttle.max_bytes_per_sec: {{ elasticsearch_index_store_throttle_max_bytes_per_sec }}
+{% endif %}
+{% if elasticsearch_index_merge_scheduler_max_thread_count is defined %}
+index.merge.scheduler.max_thread_count: {{ elasticsearch_index_merge_scheduler_max_thread_count }}
+{% endif %}
 
 #################################### Paths ####################################
 
@@ -234,6 +246,21 @@ bootstrap.mlockall: {{ elasticsearch_memory_bootstrap_mlockall }}
 # You should also make sure that the ElasticSearch process is allowed to lock
 # the memory, eg. by using `ulimit -l unlimited`.
 
+{% if elasticsearch_indices_fielddata_cache_size is defined %}
+indices.fielddata.cache.size: {{ elasticsearch_indices_fielddata_cache_size }}
+{% endif %}
+
+{% if elasticsearch_indices_breaker_fielddata_limit is defined %}
+indices.breaker.fielddata.limit: {{ elasticsearch_indices_breaker_fielddata_limit }}
+{% endif %}
+
+{% if elasticsearch_indices_breaker_request_limit is defined %}
+indices.breaker.request.limit: {{ elasticsearch_indices_breaker_request_limit }}
+{% endif %}
+
+{% if elasticsearch_indices_breaker_total_limit is defined %}
+indices.breaker.total.limit: {{ elasticsearch_indices_breaker_total_limit }}
+{% endif %}
 
 ############################## Network And HTTP ###############################
 
@@ -298,6 +325,18 @@ http.max_content_length: {{ elasticsearch_network_http_max_content_lengtht }}
 {% if elasticsearch_network_http_enabled is defined %}
 http.enabled: {{ elasticsearch_network_http_enabled }}
 {% endif %}
+
+# Basic HTTP
+{% if elasticsearch_http_basic_log is defined %}
+http.basic.log: {{ elasticsearch_http_basic_log }}
+{% endif %}
+{% if elasticsearch_http_basic_user is defined %}
+http.basic.user: {{ elasticsearch_http_basic_user }}
+{% endif %}
+{% if elasticsearch_http_basic_password is defined %}
+http.basic.password: {{ elasticsearch_http_basic_password }}
+{% endif %}
+
 
 ################################### Gateway ###################################
 
@@ -471,6 +510,20 @@ discovery.zen.fd.ping_timeout: {{ elasticsearch_discovery_zen_fd_ping_timeout }}
 {% endif %}
 {% if elasticsearch_discovery_zen_fd_ping_retries is defined %}
 discovery.zen.fd.ping_retries: {{ elasticsearch_discovery_zen_fd_ping_retries }}
+{% endif %}
+
+# Configurations for Google Compute Engine plugin
+{% if elasticsearch_cloud_gce_project_id is defined %}
+cloud.gce.project_id: {{ elasticsearch_cloud_gce_project_id }}
+{% endif %}
+{% if elasticsearch_cloud_gce_zone is defined %}
+cloud.gce.zone: {{ elasticsearch_cloud_gce_zone }}
+{% endif %}
+{% if elasticsearch_discovery_type is defined %}
+discovery.type: {{ elasticsearch_discovery_type }}
+{% endif %}
+{% if elasticsearch_discovery_gce_tags is defined %}
+discovery.gce.tags: {{ elasticsearch_discovery_gce_tags }}
 {% endif %}
 
 
