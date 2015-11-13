@@ -106,13 +106,11 @@
 - include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
 
-- include: esusers.yml
-  when: (elasticsearch_esusers is defined)
 
-- include: shield_config.yml
-  tags: shield_config_files
-  when: (elasticsearch_shield_files is defined)
-  notify: Restart Elasticsearch
+# Setup Shield
+- include: shield.yml
+  when: (elasticsearch_shield_enabled is defined and elasticsearch_shield_enabled == "true")
+
 
 
 - name: make sure config lang dir exists if elasticsearch_lang_config_files
