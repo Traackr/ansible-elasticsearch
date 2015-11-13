@@ -1,5 +1,5 @@
 # Ansible Playbook for Elasticsearch
-[![Build Status](https://travis-ci.org/Traackr/ansible-elasticsearch.svg?branch=master)](https://travis-ci.org/Traackr/ansible-elasticsearch.svg?branch=master)
+[![Build Status](https://travis-ci.org/Traackr/ansible-elasticsearch.svg?branch=master)](https://travis-ci.org/Traackr/ansible-elasticsearch)
 
 This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](http://www.elasticsearch.org/). You can use it by itself or as part of a larger playbook customized for your local environment.
 
