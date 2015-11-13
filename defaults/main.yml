@@ -3,8 +3,8 @@
 
 elasticsearch_user: elasticsearch
 elasticsearch_group: elasticsearch
-elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/elasticsearch
-elasticsearch_version: 1.4.2
+elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch
+elasticsearch_version: 2.0.0
 elasticsearch_apt_repos:
   - 'ppa:webupd8team/java'
 elasticsearch_apt_java_package: oracle-java7-installer

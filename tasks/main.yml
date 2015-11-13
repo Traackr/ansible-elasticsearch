@@ -40,7 +40,7 @@
 
 # Download deb if needed
 - name: Download Elasticsearch deb
-  get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+  get_url: url={{ elasticsearch_download_url }}/{{ elasticsearch_version }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
   when: version_exists.stdout == 'no'
 
 # Uninstall previous version if applicable
@@ -88,7 +88,7 @@
   notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/sudo regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/init.d/elasticsearch regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$' insertafter='^(DAEMON_OPTS=".*CONF_DIR")$' line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
+- lineinfile: dest=/etc/init.d/elasticsearch regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$' insertafter='^(DAEMON_OPTS=".*CONF_DIR")$' line='DAEMON_OPTS="-Des.max-open-file=true $DAEMON_OPTS"'
   notify: Restart Elasticsearch
 
 # Install AWS Plugin
