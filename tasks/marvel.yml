@@ -12,17 +12,13 @@
 # - elasticsearch_plugin_marvel_agent_interval
 # - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
-- name: Removing Marvel Plugin if it exists
-  action: >
-    shell bin/plugin --remove marvel
+- name: marvel | Removing Marvel Plugin if it exists
+  shell: bin/plugin --remove marvel
     chdir={{ elasticsearch_home_dir }}
   ignore_errors: yes
-- name: Installing Marvel Plugin
-  action: >
-    shell bin/plugin -i elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
+- name: marvel | Installing Marvel Plugin
+  shell: bin/plugin -i elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
     chdir={{ elasticsearch_home_dir }}
-# Fix permissions
-- file: >
-    path="{{ elasticsearch_plugin_dir }}" state=directory
-    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
-    recurse=yes
+  register: marvel_plugins_installed
+  changed_when: "'Installed' in marvel_plugins_installed.stdout"
+  failed_when: "marvel_plugins_installed.rc != 0 and marvel_plugins_installed.stdout.find('already exists. To update the plugin') == -1"
