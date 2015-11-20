@@ -40,7 +40,14 @@
 # Download deb if needed
 - name: Download Elasticsearch deb
   get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
-  when: version_exists.stdout == 'no'
+  when: version_exists.stdout == 'no' and elasticsearch_version != '2.0.0'
+
+- name: Download Elasticsearch deb
+  get_url: url=https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.0.0/elasticsearch-2.0.0.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+  when: version_exists.stdout == 'no' and elasticsearch_version == '2.0.0'
+
+
+#  https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.0.0/elasticsearch-2.0.0.deb
 
 # Uninstall previous version if applicable
 - name: Uninstalling previous version if applicable
@@ -69,6 +76,10 @@
   when: elasticsearch_plugin_dir is defined
 - file: path={{ elasticsearch_plugin_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_plugin_dir is defined
+- file: path={{ elasticsearch_repo_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
+  when: elasticsearch_repo_dir is defined
+
+
 
 # Configure open file limits
 - name: Configuring open file limits
@@ -87,8 +98,6 @@
   notify: Restart Elasticsearch
 - lineinfile: dest=/etc/pam.d/sudo regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/init.d/elasticsearch regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$' insertafter='^(DAEMON_OPTS=".*CONF_DIR")$' line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
-  notify: Restart Elasticsearch
 
 # Install AWS Plugin
 - include: aws.yml
@@ -101,10 +110,6 @@
 # Install custom JARs
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
-
-# Install Marvel Plugin
-- include: marvel.yml
-  when: (elasticsearch_plugin_marvel_version is defined)
 
 
 # Setup Shield

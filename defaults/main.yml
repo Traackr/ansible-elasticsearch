@@ -33,3 +33,4 @@ elasticsearch_install_java: "true"
 
 elasticsearch_repo_name: backups
 elasticsearch_backup_host: http://localhost:9200
+
