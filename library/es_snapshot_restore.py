@@ -2,8 +2,11 @@
 __author__ = 'cvig'
 
 import logging
-from elasticsearch import Elasticsearch
-
+try:
+    from elasticsearch import Elasticsearch
+    HAS_ELASTIC = True
+except ImportError:
+    HAS_ELASTIC = False
 
 class SnapRestore():
     def __init__(self, module):
@@ -75,6 +78,9 @@ def main():
             mode=dict(required=True, choices=['snapshot', 'restore'], type='str')
         )
     )
+    if not HAS_ELASTIC:
+        module.fail_json(msg='The elasticsearch python module is required')
+
     mode = module.params['mode']
     snaprestore = SnapRestore(module)
     if mode == 'snapshot':
