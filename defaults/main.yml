@@ -19,6 +19,7 @@ elasticsearch_log_dir: /var/log/elasticsearch
 elasticsearch_data_dir: /var/lib/elasticsearch
 elasticsearch_work_dir: /tmp/elasticsearch
 elasticsearch_conf_dir: /etc/elasticsearch
+elasticsearch_pid_dir: /var/run
 elasticsearch_service_startonboot: no
 elasticsearch_timezone: "Etc/UTC"  # Default to UTC
 
