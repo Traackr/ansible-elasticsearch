@@ -1,21 +1,23 @@
 ---
 # Elasticsearch Ansible Variables
 
-elasticsearch_version: 1.4.2
+elasticsearch_version: 1.7.3
 elasticsearch_apt_java_package: oracle-java8-installer
 elasticsearch_java_home: /usr/lib/jvm/java-8-oracle
 elasticsearch_heap_size: 1g
 elasticsearch_max_open_files: 65535
-elasticsearch_timezone: "America/New_York"
+elasticsearch_timezone: "Europe/Oslo"
 elasticsearch_node_max_local_storage_nodes: 1
 elasticsearch_index_mapper_dynamic: "true"
 elasticsearch_memory_bootstrap_mlockall: "true"
 elasticsearch_install_java: "true"
 elasticsearch_plugins:
-  - { name: 'elasticsearch/elasticsearch-mapper-attachments/2.4.1' }
-  - { name: 'com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.5' }
-  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip' }
+  - { name: 'elasticsearch/elasticsearch-mapper-attachments/2.7.1', reinstall: false }
+  - { name: 'com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.9', reinstall: false }
+  - { name: 'facet-script', url: 'http://dl.bintray.com/content/imotov/elasticsearch-plugins/elasticsearch-facet-script-1.1.2.zip', reinstall: false }
+  - { name: 'http-basic', url: 'https://github.com/Asquera/elasticsearch-http-basic/releases/download/v1.5.1/elasticsearch-http-basic-1.5.1.jar', download_only: true, reinstall: false }
 elasticsearch_thread_pools:
   - "threadpool.bulk.type: fixed"
   - "threadpool.bulk.size: 50"
   - "threadpool.bulk.queue_size: 1000"
+elasticsearch_service_startonboot: yes
