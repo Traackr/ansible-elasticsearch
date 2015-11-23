@@ -1,0 +1,55 @@
+---
+language: python
+python: "2.7"
+
+before_install:
+  # Make sure everything's up to date.
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq python-apt python-pycurl
+
+install:
+  # Install Ansible.
+  - pip install ansible
+
+script:
+    - cd tests
+
+    - echo -e "\e[31m######AnsibleVersion#######\e[0m"
+    - ansible --version
+
+    # 1st: check syntax
+    - echo "\e[31m######***************************** SYNTAX CHECK (1) *****************************\e[0m"
+    - ansible-playbook -i local.ini test1.yml --syntax-check
+
+    # 2nd:  Make sure we run the entire playbook
+    - echo "***************************** RUN PLAY (2) *****************************"
+    - ansible-playbook -i local.ini test1.yml --sudo -vvvv --diff
+    - sudo netstat -antlp | grep LISTEN
+    - sudo ps aux | grep java
+    - curl 127.0.0.1:9200
+
+    # 3rd:  Make sure our playbook is idempotent
+    - echo "***************************** Idempotence test (3) *****************************"
+    - >
+      ansible-playbook -i local.ini test1.yml --sudo -vvvv --diff | tee ansible_output
+      | grep -q 'changed=0.*failed=0'
+      && (echo 'Idempotence test: pass' && exit 0)
+      || (echo 'Idempotence test: fail' && exit 1)
+
+    # 4th:  Application test
+    - ./elastic_test.sh
+
+after_failure:
+    - echo -e "\e[31m######IdepotanceLog#######\e[0m"
+    - sudo cat ansible_output
+    - echo -e "\e[31m######netstat#######\e[0m"
+    - sudo netstat -atnlp
+    - echo -e "\e[31m######ps#######\e[0m"
+    - sudo ps aux | grep java
+    - echo -e "\e[31m######CurlElasticsearch#######\e[0m"
+    - curl 127.0.0.1:9200
+    - echo -e "\e[31m######AnsibleFacts#######\e[0m"
+    - ansible -i 127.0.0.1, -m setup all -c local
+
+after_success:
+ - echo -e "\e[0;32m######Cool Success#######\e[0m"

@@ -1,0 +1,161 @@
+---
+
+- name: elastic-install | Install python-software-properties
+  apt:
+    pkg=python-software-properties
+    state=present
+    update_cache=yes
+    cache_valid_time={{apt_cache_valid_time}}
+
+- name: elastic-install | Install dependencies
+  apt:
+    pkg={{ item }}
+    state=present
+  with_items: elasticsearch_apt_dependencies
+
+- name: elastic-install | Configuring elastic group
+  group:
+    name={{ elasticsearch_group }}
+
+- name: elastic-install | Configuring elastic user
+  user:
+    name={{ elasticsearch_user }}
+    group={{ elasticsearch_group }}
+    createhome=no
+
+- name: elastic-install | Ensure temp elasticsearch directories exists
+  file:
+    path="{{ elasticsearch_work_dir }}"
+    state=directory
+    owner={{ elasticsearch_user }}
+    group={{ elasticsearch_group }}
+    recurse=yes
+
+- name: elastic-install | Check if we have elastic with same version installed
+  stat:
+    path="/usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch_version }}.jar"
+  register: installed_version
+
+- name: elastic-install | Try to stop elasticsearch if running
+  service:
+    name=elasticsearch
+    state=stopped
+  ignore_errors: yes
+  when: not installed_version.stat.exists
+
+- name: elastic-install | Download Elasticsearch deb
+  get_url:
+    url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb
+    dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb
+    mode=0440
+  when: not installed_version.stat.exists
+
+#shell: dpkg --remove elasticsearch
+- name: elastic-install | Uninstalling previous version if applicable
+  apt:
+     name="elasticsearch"
+     state="absent"
+  when: not installed_version.stat.exists
+
+- name: elastic-install | Remove elasticsearch directory
+  file:
+    path="{{ elasticsearch_home_dir }}"
+    state=absent
+  when: not installed_version.stat.exists
+
+- name: elastic-install | Install Elasticsearch deb
+  shell: dpkg -i -E --force-confnew /tmp/elasticsearch-{{ elasticsearch_version }}.deb
+  when: not installed_version.stat.exists
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Ensure elastic directories exists
+  file:
+    path="{{ item }}"
+    state=directory
+    owner={{ elasticsearch_user }}
+    group={{ elasticsearch_group }}
+    recurse=yes
+  with_items:
+     - "{{ elasticsearch_work_dir }}"
+     - "{{ elasticsearch_home_dir }}"
+     - "{{ elasticsearch_log_dir }}"
+     - "{{ elasticsearch_data_dir }}"
+     - "{{ elasticsearch_work_dir }}"
+     - "{{ elasticsearch_conf_dir }}"
+
+- name: Configure limits max_open_files
+  lineinfile:
+    dest=/etc/security/limits.conf
+    regexp='^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+    insertafter=EOF
+    line='{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+  when: elasticsearch_max_open_files is defined
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configure limits max_locked_memory
+  lineinfile:
+    dest=/etc/security/limits.conf
+    regexp='^{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
+    insertafter=EOF
+    line='{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
+  when: elasticsearch_max_locked_memory is defined
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configure su pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/su
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configure common-session pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/common-session
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configure common-session-noninteractive pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/common-session-noninteractive
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configure sudo pam_limits.so
+  lineinfile:
+    dest=/etc/pam.d/sudo
+    regexp='^session    required   pam_limits.so'
+    insertafter=EOF
+    line='session    required   pam_limits.so'
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configure initd java opts in /etc/init.d/elasticsearch
+  lineinfile:
+    dest=/etc/init.d/elasticsearch
+    regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$'
+    insertafter='^(DAEMON_OPTS=".*CONF_DIR")$'
+    line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
+  notify: Restart Elasticsearch
+
+- name: elastic-install | Configuring Elasticsearch elasticsearch.yml Node
+  template:
+    src=elasticsearch.yml.j2
+    dest={{ elasticsearch_conf_dir }}/elasticsearch.yml
+    owner={{ elasticsearch_user }}
+    group={{ elasticsearch_group }}
+    mode=0644
+  when: elasticsearch_conf_dir is defined
+  notify: Restart Elasticsearch
+
+- name : elastic-install | Configure /etc/default/elasticsearch
+  template:
+    src=elasticsearch.default.j2
+    dest=/etc/default/elasticsearch
+    owner={{ elasticsearch_user }}
+    group={{ elasticsearch_group }}
+    mode=0644
+  notify: Restart Elasticsearch

@@ -1,4 +1,6 @@
 # Ansible Playbook for Elasticsearch
+[![Build Status](https://travis-ci.org/Traackr/ansible-elasticsearch.svg?branch=master)](https://travis-ci.org/Traackr/ansible-elasticsearch)
+
 This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](http://www.elasticsearch.org/). You can use it by itself or as part of a larger playbook customized for your local environment.
 
 ## Features
@@ -7,6 +9,14 @@ This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](
 - Support for installing custom JARs in the Elasticsearch classpath (e.g. custom Lucene Similarity JAR)
 - Support for installing the [Sematext SPM](http://www.sematext.com/spm/) monitor
 - Support for installing the [Marvel](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
+
+## Installing
+
+Install [ansible-elasticsearch](https://galaxy.ansible.com/list#/roles/181) via ansible galaxy:
+
+```
+ansible-galaxy install gpstathis.elasticsearch
+```
 
 ## Testing locally with Vagrant
 A sample [Vagrant](http://www.vagrantup.com/) configuration is provided to help with local testing. After installing Vagrant, run `vagrant up` at the root of the project to get an VM instance bootstrapped and configured with a running instance of Elasticsearch. Look at `vars/vagrant.yml` and `defaults/main.yml` for the variables that will be substituted in `templates/elasticsearch.yml.j2`.
@@ -55,7 +65,7 @@ spm_client_token=<your SPM token here>
 ```
 
 ### Edit your vars/my-vars.yml
-See `vars/sample.yml` and `vars/vagrant.yml` for exmaple variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to defile in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
+See `vars/sample.yml` and `vars/vagrant.yml` for example variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to defile in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
 
 ### Edit your my-playbook-main.yml
 Example `my-playbook-main.yml`:
