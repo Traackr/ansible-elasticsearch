@@ -6,8 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "bytepark/trusty-64"
-
+  config.vm.box = "ubuntu/trusty64"
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network :private_network, ip: "192.168.33.10"
@@ -20,11 +19,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.synced_folder '.', '/vagrant'
 
-  config.vm.provision :ansible do |ansible|
-    ansible.inventory_path = "vagrant-inventory.ini"
-    ansible.playbook = "vagrant-main.yml"
-    ansible.extra_vars = { user: "vagrant" }
-    ansible.limit = 'all'
-    # ansible.verbose = 'vvvv'
-  end
+  config.vm.provision :shell,
+    :keep_color => true,2
+    :path => "setup.sh"
+  config.vm.provision : shell,
+   :keep_color => true,2
+   :inline => "cd vagrant/provisioning && ansible-playbook playbook.yml -vv"
 end
