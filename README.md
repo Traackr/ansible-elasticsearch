@@ -241,7 +241,7 @@ Checkout this project as a submodule under roles:
 
 ```
 $  cd roles
-$  -$  git submodule add git://github.com/traackr/ansible-elasticsearch.git ./ansible-elasticsearch
+$  git submodule add git://github.com/traackr/ansible-elasticsearch.git ./ansible-elasticsearch
 $  git submodule update --init
 $  git commit ./submodule -m "Added submodule as ./subm"
 ```
