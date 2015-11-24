@@ -11,6 +11,7 @@ elasticsearch_apt_java_package: oracle-java8-installer
 elasticsearch_apt_dependencies:
   - ntp
   - unzip
+elasticsearch_network_host: 0.0.0.0 # makes elasticsearch reachable from public network interfaces
 elasticsearch_max_open_files: 65535
 elasticsearch_home_dir: /usr/share/elasticsearch
 elasticsearch_plugin_dir: /usr/share/elasticsearch/plugins
