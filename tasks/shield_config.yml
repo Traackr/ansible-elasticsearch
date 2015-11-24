@@ -1,1 +1,0 @@
-- copy: src={{elasticsearch_shield_files}} dest=/etc/elasticsearch/shield/

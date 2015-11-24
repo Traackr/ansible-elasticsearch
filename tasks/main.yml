@@ -23,6 +23,10 @@
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
 
+# Install Marvel Plugin
+- include: marvel.yml
+  when: (elasticsearch_plugin_marvel_version is defined)
+
 # Setup Shield
 - include: shield.yml
   when: (elasticsearch_shield_enabled is defined and elasticsearch_shield_enabled == "true")

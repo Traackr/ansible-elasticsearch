@@ -1,7 +1,9 @@
-- include: esusers.yml
+- name: shield | esusers
+  include: esusers.yml
   when: (elasticsearch_esusers is defined)
 
-- include: shield_config.yml
+- name: shield | config files
+  copy: src={{elasticsearch_shield_files}} dest=/etc/elasticsearch/shield/
   tags: shield_config_files
   when: (elasticsearch_shield_files is defined)
   notify: Restart Elasticsearch
