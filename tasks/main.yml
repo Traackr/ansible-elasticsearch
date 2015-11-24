@@ -98,10 +98,15 @@
   when: (elasticsearch_plugin_marvel_version is defined)
 
 # List installed plugins
-- name: Installed plugins
+- name: Get installed plugins
   shell: bin/plugin list
+  register: elasticsearch_plugin_list
   args:
     chdir: "{{ elasticsearch_home_dir }}"
+
+- name: Output installed plugins
+  debug:
+    msg: "{{ elasticsearch_plugin_list.stdout }}"
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
