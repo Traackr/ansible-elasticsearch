@@ -15,13 +15,15 @@
 
 - name: Removing AWS Plugin if it exists
   action: >
-    shell bin/plugin --remove cloud-aws
+    shell bin/plugin remove cloud-aws
     chdir={{ elasticsearch_home_dir }}
   ignore_errors: yes
+
 - name: Installing AWS Plugin
   action: >
-    shell bin/plugin --install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
+    shell bin/plugin install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
     chdir={{ elasticsearch_home_dir }}
+
 # Fix permissions
 - file: >
     path="{{ elasticsearch_plugin_dir }}" state=directory
