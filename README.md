@@ -3,6 +3,8 @@
 # Ansible Role for Elasticsearch
 This is an [Ansible](http://www.ansibleworks.com/) role for [Elasticsearch](http://www.elasticsearch.org/).
 
+**WARNING** This role might no longer work with Elasticsearch below version 2.0!
+
 ## Features
 - Support for installing plugins
 - Support for installing and configuring EC2 plugin
