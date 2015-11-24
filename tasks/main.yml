@@ -23,33 +23,9 @@
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
 
-# restore elasticsearch snapshot
-- name: restore elasticsearch snapshot
-  include: es_restore.yml
-  tags: elasticsearch_restore
-  when: elasticsearch_snapshot_restore_name is defined
-
-# create  elasticsearch snapshot
-- name: restore elasticsearch snapshot
-  include: es_snapshot.yml
-  tags: elasticsearch_snapshot
-  when: elasticsearch_snapshot_name is defined
-
 # Setup Shield
 - include: shield.yml
   when: (elasticsearch_shield_enabled is defined and elasticsearch_shield_enabled == "true")
-
-
-
-- name: make sure config lang dir exists if elasticsearch_lang_config_files
-  file: path=/etc/elasticsearch/config/lang/ state=directory
-  when: (elasticsearch_lang_config_files is defined)
-
-- name: copy in language files
-  synchronize: src={{elasticsearch_lang_config_files }} dest=/etc/elasticsearch/config/lang/
-  when: (elasticsearch_lang_config_files is defined)
-  notify: Restart Elasticsearch
-
 
 # Always run post-run tasks
 - include: post-run.yml

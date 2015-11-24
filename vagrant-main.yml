@@ -3,7 +3,6 @@
 - hosts: all
   user: $user
   sudo: yes
-
   vars_files:
     - defaults/main.yml
     - vars/vagrant.yml
