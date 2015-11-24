@@ -100,7 +100,8 @@
 # List installed plugins
 - name: Installed plugins
   shell: bin/plugin list
-  chdir: "{{ elasticsearch_home_dir }}"
+  args:
+    chdir: "{{ elasticsearch_home_dir }}"
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
