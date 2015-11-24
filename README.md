@@ -202,7 +202,7 @@ The following variables provide configuration for the plugin. More options may b
   + order: 1
   + domain_name: example.com
   + unmapped_groups_as_roles: "true"
-  + url: ldap://parsecdc005.pareto.no
+  + url: ldap://ad.microsoft.com
   + enabled: "true"
    
 - elasticsearch_esusers
