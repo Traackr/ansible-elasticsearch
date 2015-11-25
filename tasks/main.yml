@@ -81,7 +81,7 @@
 
 # Install Plugins with ES => 2.0
 - include: plugins.yml
-  when: (elasticsearch_version|int => 2)
+  when: (elasticsearch_version|int >= 2)
 
 # Install Plugins with ES < 2.0
 - include: plugins_old.yml
