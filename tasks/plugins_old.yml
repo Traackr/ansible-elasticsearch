@@ -7,31 +7,31 @@
 #  - ...
 # where if you were to install the plugin via bin/plugin, you would type:
 #
-# bin/plugin install <plugin name>
+# bin/plugin --install <plugin name>
 # or
-# bin/plugin install <plugin url>
+# bin/plugin --install <plugin name> --url <plugin url>
 
 # Loop though elasticsearch_plugins and install them
-- name: (ES2 mode) Removing Plugins if they exist
+- name: Removing Plugins if they exist
   action: >
-    shell bin/plugin remove {{ item.name }}
+    shell bin/plugin --remove {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   with_items: elasticsearch_plugins
   ignore_errors: yes
   when: (elasticsearch_plugins is defined)
 
-- name: (ES2 mode) Installing Plugins by Name (use for official plugins within the elasticsearch repo)
+- name: Installing Plugins by Name
   action: >
-    shell bin/plugin install {{ item.name }}
+    shell bin/plugin --install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is not defined
   with_items: elasticsearch_plugins
   ignore_errors: yes
   when: (elasticsearch_plugins is defined)
 
-- name: (ES2 mode) Installing Plugins by URL (use for 3rd party plugins)
+- name: Installing Plugins by URL
   action: >
-    shell bin/plugin install {{ item.url }}
+    shell bin/plugin --install {{item.name}} --url {{ item.url }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is defined
   with_items: elasticsearch_plugins
@@ -51,16 +51,16 @@
 # - elasticsearch_plugin_aws_secret_key
 # - elasticsearch_plugin_aws_region
 
-- name: (ES2 mode) Removing AWS Plugin if it exists
+- name: Removing AWS Plugin if it exists
   action: >
-    shell bin/plugin remove cloud-aws
+    shell bin/plugin --remove cloud-aws
     chdir={{ elasticsearch_home_dir }}
   ignore_errors: yes
   when: (elasticsearch_plugin_aws_version is defined)
 
-- name: (ES2 mode) Installing AWS Plugin
+- name: Installing AWS Plugin
   action: >
-    shell bin/plugin install cloud-aws
+    shell bin/plugin --install elasticsearch/elasticsearch-cloud-aws/{{ elasticsearch_plugin_aws_version }}
     chdir={{ elasticsearch_home_dir }}
   when: (elasticsearch_plugin_aws_version is defined)
 
@@ -77,16 +77,16 @@
 # - elasticsearch_plugin_marvel_agent_interval
 # - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
-- name: (ES2 mode) Removing Marvel Plugin if it exists
+- name: Removing Marvel Plugin if it exists
   action: >
-    shell bin/plugin remove marvel
+    shell bin/plugin --remove marvel
     chdir={{ elasticsearch_home_dir }}
   ignore_errors: yes
   when: (elasticsearch_plugin_marvel_version is defined)
 
-- name: (ES2 mode) Installing Marvel Plugin
+- name: Installing Marvel Plugin
   action: >
-    shell bin/plugin install elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
+    shell bin/plugin --install elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
     chdir={{ elasticsearch_home_dir }}
   when: (elasticsearch_plugin_marvel_version is defined)
 
@@ -101,12 +101,12 @@
 
 # List installed plugins
 - name: Get installed plugins
-  shell: bin/plugin list
+  shell: bin/plugin --list
   register: elasticsearch_plugin_list
   args:
     chdir: "{{ elasticsearch_home_dir }}"
 
-- name: Output installed ES2 plugins
+- name: Output installed plugins
   debug:
     msg: "{{ elasticsearch_plugin_list.stdout }}"
 

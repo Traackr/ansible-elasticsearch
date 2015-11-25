@@ -79,32 +79,19 @@
 - lineinfile: dest=/etc/pam.d/sudo regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
   notify: Restart Elasticsearch
 
-# Install AWS Plugin
-- include: aws.yml
-  when: (elasticsearch_plugin_aws_version is defined)
-
-# Install Other Generic Plugins
+# Install Plugins with ES => 2.0
 - include: plugins.yml
-  when: (elasticsearch_plugins is defined)
+  when: elasticsearch_version | version_compare('2.0', '>=')
+
+# Install Plugins with ES < 2.0
+- include: plugins_old.yml
+  when: elasticsearch_version | version_compare('2.0', '<')
 
 # Install custom JARs
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
 
 # Install Marvel Plugin
-- include: marvel.yml
-  when: (elasticsearch_plugin_marvel_version is defined)
-
-# List installed plugins
-- name: Get installed plugins
-  shell: bin/plugin list
-  register: elasticsearch_plugin_list
-  args:
-    chdir: "{{ elasticsearch_home_dir }}"
-
-- name: Output installed plugins
-  debug:
-    msg: "{{ elasticsearch_plugin_list.stdout }}"
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
