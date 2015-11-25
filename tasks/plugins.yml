@@ -12,7 +12,7 @@
 # bin/plugin install <plugin url>
 
 # Loop though elasticsearch_plugins and install them
-- name: ES-Pugins-2: Removing Plugins if they exist
+- name: ES-Pugins-2 Removing Plugins if they exist
   action: >
     shell bin/plugin remove {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
