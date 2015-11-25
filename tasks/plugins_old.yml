@@ -7,9 +7,9 @@
 #  - ...
 # where if you were to install the plugin via bin/plugin, you would type:
 #
-# bin/plugin install <plugin name>
+# bin/plugin --install <plugin name>
 # or
-# bin/plugin install <plugin url>
+# bin/plugin --install <plugin name> --url <plugin url>
 
 # Loop though elasticsearch_plugins and install them
 - name: Removing Plugins if they exist
@@ -20,7 +20,7 @@
   ignore_errors: yes
   when: (elasticsearch_plugins is defined)
 
-- name: Installing Plugins by Name (use for official plugins within the elasticsearch repo)
+- name: Installing Plugins by Name
   action: >
     shell bin/plugin --install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
@@ -29,7 +29,7 @@
   ignore_errors: yes
   when: (elasticsearch_plugins is defined)
 
-- name: Installing Plugins by URL (use for 3rd party plugins)
+- name: Installing Plugins by URL
   action: >
     shell bin/plugin --install {{item.name}} --url {{ item.url }}
     chdir={{ elasticsearch_home_dir }}
