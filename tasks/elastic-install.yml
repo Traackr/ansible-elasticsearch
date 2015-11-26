@@ -138,7 +138,7 @@
     dest=/etc/init.d/elasticsearch
     regexp='^(DAEMON_OPTS=".*-Des.max-open-files=true")$'
     insertafter='^(DAEMON_OPTS=".*CONF_DIR")$'
-    line='DAEMON_OPTS="$DAEMON_OPTS -Des.max-open-files=true"'
+    line='DAEMON_OPTS="-Des.max-open-files=true $DAEMON_OPTS"'
   notify: Restart Elasticsearch
 
 - name: elastic-install | Configuring Elasticsearch elasticsearch.yml Node
