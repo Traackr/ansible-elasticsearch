@@ -612,6 +612,16 @@ http.cors.enabled: {{ elasticsearch_http_cors_enabled }}
 script.groovy.sandbox.enabled: {{ elasticsearch_script_groovy_sandbox_enabled }}
 {% endif %}
 
+### Scripting ###
+
+{% if elasticsearch_script_inline is defined %}
+script.inline: {{ elasticsearch_script_inline }}
+{% endif %}
+
+{% if elasticsearch_script_indexed is defined %}
+script.inline: {{ elasticsearch_script_indexed }}
+{% endif %}
+
 
 ################################### Awareness Settings #####################################
 
