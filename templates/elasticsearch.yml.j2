@@ -619,7 +619,7 @@ script.inline: {{ elasticsearch_script_inline }}
 {% endif %}
 
 {% if elasticsearch_script_indexed is defined %}
-script.inline: {{ elasticsearch_script_indexed }}
+script.indexed: {{ elasticsearch_script_indexed }}
 {% endif %}
 
 
