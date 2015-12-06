@@ -319,6 +319,22 @@ http.port: {{ elasticsearch_network_http_port }}
 http.max_content_length: {{ elasticsearch_network_http_max_content_lengtht }}
 {% endif %}
 
+# Enable http compression (disabled by default)
+#
+# http.compression: true
+{% if elasticsearch_network_http_compression is defined %}
+http.compression: {{ elasticsearch_network_http_compression }}
+{% endif %}
+
+
+# Set http compression level (6 is default)
+#
+# http.compression_level: 6
+{% if elasticsearch_network_http_compression_level is defined %}
+http.compression_level: {{ elasticsearch_network_http_compression_level }}
+{% endif %}
+
+
 # Disable HTTP completely:
 #
 # http.enabled: false
