@@ -1,5 +1,8 @@
 ---
 - hosts: localhost
   become: true
+  vars:
+    elasticsearch_plugins:
+      - { name: 'hq', url: 'royrusso/elasticsearch-HQ' }
   roles:
     - ansible-role-elasticsearch
