@@ -1,5 +1,5 @@
 ---
-# Install Elasticsearch Plugins (works only with the plugin script/system from ES => 2.0.0)
+# Install Elasticsearch Plugins using the oldl script (works only with the plugin script/system with ES < 2.0.0)
 # You will need to define an array called 'elasticsearch_plugins' in your playbook or inventory, such that:
 #
 # elasticsearch_plugins:
@@ -11,23 +11,25 @@
 # or
 # bin/plugin --install <plugin name> --url <plugin url>
 
-# Loop though elasticsearch_plugins and install them
-- name: Removing Plugins if they exist
-  action: >
-    shell bin/plugin --remove {{ item.name }}
-    chdir={{ elasticsearch_home_dir }}
-  with_items: elasticsearch_plugins
-  ignore_errors: yes
-  when: (elasticsearch_plugins is defined)
+# Cleanup installed plugins first
+- name: (ES2 mode) Determining which plugins are installed
+  shell: '{{ elasticsearch_home_dir }}/bin/plugin --list | grep -E " - [[:alnum:]_-]+"'
+  register: elasticsearch_installed_plugins
 
+- name: (ES2 mode) Removing Plugins if they exist
+  action: >
+    shell bin/plugin --remove {{ item }}
+    chdir={{ elasticsearch_home_dir }}
+  when: "'No plugin' not in item"
+  with_items: elasticsearch_installed_plugins.stdout | from_yaml
+
+# Loop through elasticsearch_plugins and install them
 - name: Installing Plugins by Name
   action: >
     shell bin/plugin --install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is not defined
   with_items: elasticsearch_plugins
-  ignore_errors: yes
-  when: (elasticsearch_plugins is defined)
 
 - name: Installing Plugins by URL
   action: >
@@ -35,8 +37,6 @@
     chdir={{ elasticsearch_home_dir }}
   when: item.url is defined
   with_items: elasticsearch_plugins
-  ignore_errors: yes
-  when: (elasticsearch_plugins is defined)
 
 # Install AWS Plugin (see https://github.com/elasticsearch/elasticsearch-cloud-aws)
 # The following variables need to be defined in your playbook or inventory:
@@ -50,13 +50,6 @@
 # - elasticsearch_plugin_aws_access_key
 # - elasticsearch_plugin_aws_secret_key
 # - elasticsearch_plugin_aws_region
-
-- name: Removing AWS Plugin if it exists
-  action: >
-    shell bin/plugin --remove cloud-aws
-    chdir={{ elasticsearch_home_dir }}
-  ignore_errors: yes
-  when: (elasticsearch_plugin_aws_version is defined)
 
 - name: Installing AWS Plugin
   action: >
@@ -76,13 +69,6 @@
 # - elasticsearch_plugin_marvel_agent_indices
 # - elasticsearch_plugin_marvel_agent_interval
 # - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
-
-- name: Removing Marvel Plugin if it exists
-  action: >
-    shell bin/plugin --remove marvel
-    chdir={{ elasticsearch_home_dir }}
-  ignore_errors: yes
-  when: (elasticsearch_plugin_marvel_version is defined)
 
 - name: Installing Marvel Plugin
   action: >

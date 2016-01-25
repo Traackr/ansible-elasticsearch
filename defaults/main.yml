@@ -23,6 +23,8 @@ elasticsearch_service_startonboot: yes
 #elasticsearch_http_cors_enabled: "false"
 elasticsearch_service_state: started
 
+elasticsearch_plugins: []
+
 # Non-Elasticsearch Defaults
 apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
 elasticsearch_install_java: "true"
