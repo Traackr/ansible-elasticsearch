@@ -3,6 +3,7 @@
   become: true
   vars:
     elasticsearch_version: 2.0.2
+    elasticsearch_cluster_name: my-test-cluster
     elasticsearch_plugins:
       - { name: 'hq', url: 'royrusso/elasticsearch-HQ' }
   roles:

@@ -52,7 +52,7 @@ describe "Elastic Search setup" do
 
   context "No AWS plugin vars set", if: !ANSIBLE_VARS.fetch('elasticsearch_plugin_aws_version', false) do
     describe file('/usr/share/elasticsearch/plugins/cloud-aws/') do
-      its(:content) { should_not exist }
+      it { should_not exist }
     end
 
     describe file('/etc/elasticsearch/elasticsearch.yml') do
