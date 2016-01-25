@@ -10,11 +10,20 @@ env:
 
 before_install:
   - sudo apt-get update -qq
+  # Clean up all the weird rubies (none coming from apt packages) from system
+  - sudo rm /usr/bin/ruby /usr/bin/gem
+  - sudo rm -r /home/travis/.rvm/
 
 install:
-  # Install serverspec
-  - ruby -v
-  - gem install serverspec
+  # Setup ruby 2.0 for root
+  - sudo apt-get install -y ruby2.0
+  - sudo ln -s /usr/bin/ruby2.0 /usr/bin/ruby
+  - sudo ln -s /usr/bin/gem2.0 /usr/bin/gem
+  - sudo ln -s /usr/bin/rake2.0 /usr/bin/rake
+
+  # Install serverspec as root
+  - sudo ruby -v
+  - sudo gem install serverspec
 
   # Install Ansible
   - pip install ansible
@@ -39,4 +48,4 @@ script:
     || (echo 'Idempotence test: fail' && exit 1)
 
   # Run serverspec
-  - rake spec
+  - sudo rake spec
