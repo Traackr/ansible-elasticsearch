@@ -2,6 +2,7 @@
 - hosts: localhost
   become: true
   vars:
+    elasticsearch_version: 2.0.2
     elasticsearch_plugins:
       - { name: 'hq', url: 'royrusso/elasticsearch-HQ' }
   roles:
