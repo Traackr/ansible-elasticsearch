@@ -26,9 +26,9 @@ script:
   - "ansible-playbook -i tests/inventory tests/$SITE --connection=local"
 
   # Run the role/playbook again, checking to make sure it's idempotent.
-  # We allow 2 'changes' as the tasks only update variables for ansible (not changing machine state)
+  # We allow 3 'changes' as the tasks only update variables for ansible (not changing machine state)
   - >
     ansible-playbook -i tests/inventory tests/$SITE --connection=local
-#    | grep -q 'changed=2.*failed=0'
-#    && (echo 'Idempotence test: pass' && exit 0)
-#    || (echo 'Idempotence test: fail' && exit 1)
+    | grep -q 'changed=3.*failed=0'
+    && (echo 'Idempotence test: pass' && exit 0)
+    || (echo 'Idempotence test: fail' && exit 1)
