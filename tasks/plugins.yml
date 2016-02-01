@@ -29,20 +29,20 @@
 # Loop though elasticsearch_plugins and install them
 - name: Removing Plugins if they exist
   action: >
-    shell bin/plugin --remove {{ item.name }}
+    shell bin/plugin remove {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: Installing Plugins by Name
   action: >
-    shell bin/plugin -install {{ item.name }}
+    shell bin/plugin install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is not defined
   with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: Installing Plugins by URL
   action: >
-    shell bin/plugin -install {{ item.name }} -url {{ item.url }}
+    shell bin/plugin install {{ item.name }} -url {{ item.url }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is defined
   with_items: elasticsearch_plugins
