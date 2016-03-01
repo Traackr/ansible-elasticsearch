@@ -103,7 +103,7 @@
   when: (elasticsearch_custom_jars is defined)
 
 # Add users to Shield
-- include: esusers.yml
+- include: users-roles.yml
   when: (elasticsearch_users is defined)
 
 # Configure Elasticsearch Node
