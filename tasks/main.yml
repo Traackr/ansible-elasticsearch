@@ -102,9 +102,9 @@
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
 
-# Install Marvel Plugin
-- include: marvel.yml
-  when: (elasticsearch_plugin_marvel_version is defined)
+# Add users to Shield
+- include: esusers.yml
+  when: (elasticsearch_users is defined)
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
