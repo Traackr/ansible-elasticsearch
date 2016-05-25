@@ -132,7 +132,7 @@ elasticsearch_install_java: "false"
 Checkout this project as a submodule under roles/:
 
 ```
-$  git submodule add git://github.com/traackr/ansible-elasticsearch.git roles/mpx.elasticsearch
+$  git submodule add git@github.com:mediapeers/ansible-role-elasticsearch.git roles/mediapeers.elasticsearch
 ```
 
 ### Include this role in your playbook
@@ -145,7 +145,7 @@ Example playbook setup:
   sudo: yes
 
   roles:
-    - mpx.elasticsearch
+    - mediapeers.elasticsearch
 
   vars_files:
     - vars/my-vars.yml
