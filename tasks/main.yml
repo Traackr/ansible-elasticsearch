@@ -105,3 +105,11 @@
 # Register Elasticsearch service to start on boot
 - name: Ensure Elasticsearch is started on boot
   service: name=elasticsearch enabled={{ elasticsearch_service_startonboot }} state={{ elasticsearch_service_state }}
+
+# Copy ES maintainance scripts to machine
+- name: Copy reroute script to machine
+  copy:
+    src: unassigned-reroute.sh
+    dest: '{{ elasticsearch_scripts_dir }}/unassigned-reroute.sh'
+    mode: 'u=rwx'
+  when: elasticsearch_scripts_dir is defined
