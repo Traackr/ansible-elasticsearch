@@ -21,7 +21,7 @@
     shell bin/plugin --remove {{ item }}
     chdir={{ elasticsearch_home_dir }}
   when: "'No plugin' not in item"
-  with_items: elasticsearch_installed_plugins.stdout | from_yaml
+  with_items: '{{ elasticsearch_installed_plugins.stdout | from_yaml }}'
 
 # Loop through elasticsearch_plugins and install them
 - name: Installing Plugins by Name
@@ -29,14 +29,14 @@
     shell bin/plugin --install {{ item.name }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is not defined
-  with_items: elasticsearch_plugins
+  with_items: '{{ elasticsearch_plugins }}'
 
 - name: Installing Plugins by URL
   action: >
     shell bin/plugin --install {{item.name}} --url {{ item.url }}
     chdir={{ elasticsearch_home_dir }}
   when: item.url is defined
-  with_items: elasticsearch_plugins
+  with_items: '{{ elasticsearch_plugins }}'
 
 # Install AWS Plugin (see https://github.com/elasticsearch/elasticsearch-cloud-aws)
 # The following variables need to be defined in your playbook or inventory:

@@ -8,7 +8,7 @@
 
 - name: Add specified repos and update apt index
   apt_repository: repo={{ item }} state=present update_cache=yes
-  with_items: elasticsearch_apt_repos
+  with_items: '{{ elasticsearch_apt_repos }}'
 
 - name: Accept Oracle license prior JDK installation
   shell: echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections; echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections creates=/usr/lib/jvm/java-7-oracle
@@ -20,7 +20,7 @@
 
 - name: Install other packages specified as dependencies
   apt: pkg={{ item }} state=present
-  with_items: elasticsearch_apt_dependencies
+  with_items: '{{ elasticsearch_apt_dependencies }}'
 
 - name: Configuring user and group
   group: name={{ elasticsearch_group }}

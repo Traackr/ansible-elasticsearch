@@ -14,7 +14,7 @@
   action: >
     get_url url={{ item.uri }}
     url_username={{ item.user }} url_password={{ item.passwd }} dest="{{ elasticsearch_home_dir }}/lib/{{ item.filename }}"
-  with_items: elasticsearch_custom_jars
+  with_items: '{{ elasticsearch_custom_jars }}'
 # Fix permissions
 - file: >
     path="{{ elasticsearch_home_dir }}/lib" state=directory
