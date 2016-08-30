@@ -1,27 +1,32 @@
 ---
 # SPM Tasks (see http://sematext.com/spm/)
 
-# Install Collectd
 - name: Install Collectd
-  apt: pkg=collectd state=present
+  apt:
+    pkg: collectd
+    state: present
 
-# Download package
 - name: Downloading and running package
   shell: wget --no-check-certificate -O installer.sh "https://apps.sematext.com/spm-reports/installerDownload.do?client_token={{ spm_client_token }}" && bash installer.sh
 
-# Prepare monitor configurations
 - name: Preparing monitor configurations
   shell: bash /opt/spm/bin/spm-client-setup-conf.sh {{ spm_client_token }} es standalone
 
-# Configure JXM in Elasticsearch
 - name: Configuring JXM in Elasticsearch
-  lineinfile: dest=/etc/default/elasticsearch regexp='^(ES_JAVA_OPTS="\$ES_JAVA_OPTS -Dcom.sun.management.jmxremote.*")$' insertafter='^(#ES_JAVA_OPTS=.*)$' line='ES_JAVA_OPTS="\$ES_JAVA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=3000 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"'
+  lineinfile:
+    dest: /etc/default/elasticsearch
+    regexp: '^(ES_JAVA_OPTS="\$ES_JAVA_OPTS -Dcom.sun.management.jmxremote.*")$'
+    insertafter: '^(#ES_JAVA_OPTS=.*)$'
+    line: 'ES_JAVA_OPTS="\$ES_JAVA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=3000 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"'
   notify: Restart Elasticsearch
 
-# Configure JXM in SPM
 - name: Configuring JXM in SPM
-  lineinfile: dest=/opt/spm/spm-monitor/conf/spm-monitor-config-{{ spm_client_token }}-default.properties regexp='^(SPM_MONITOR_JMX_PARAMS="")$' line='SPM_MONITOR_JMX_PARAMS="-Dspm.remote.jmx.url=localhost:3000"'
+  lineinfile:
+    dest: /opt/spm/spm-monitor/conf/spm-monitor-config-{{ spm_client_token }}-default.properties
+    regexp: '^(SPM_MONITOR_JMX_PARAMS="")$'
+    line: 'SPM_MONITOR_JMX_PARAMS="-Dspm.remote.jmx.url=localhost:3000"'
 
-# Restart SPM
 - name: Restarting SPM
-  service: name=spm-monitor state=restarted
+  service:
+    name: spm-monitor
+    state: restarted

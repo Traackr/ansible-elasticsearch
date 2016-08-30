@@ -7,7 +7,10 @@
   when: elasticsearch_timezone is defined
 
 - name: Add specified repos and update apt index
-  apt_repository: repo={{ item }} state=present update_cache=yes
+  apt_repository:
+    repo: '{ item }}'
+    state: present
+    update_cache: yes
   with_items: '{{ elasticsearch_apt_repos }}'
 
 - name: Accept Oracle license prior JDK installation
@@ -15,16 +18,24 @@
   when: elasticsearch_install_java
 
 - name: Install Java package
-  apt: pkg={{elasticsearch_apt_java_package}} state=present
+  apt:
+    pkg: '{{elasticsearch_apt_java_package}}'
+    state: present
   when: elasticsearch_install_java
 
 - name: Install other packages specified as dependencies
-  apt: pkg={{ item }} state=present
+  apt:
+    pkg: '{{ item }}'
+    state: present
   with_items: '{{ elasticsearch_apt_dependencies }}'
 
 - name: Configuring user and group
-  group: name={{ elasticsearch_group }}
-- user: name={{ elasticsearch_user }} group={{ elasticsearch_group }} createhome=no
+  group:
+    name: '{{ elasticsearch_group }}'
+- user:
+    name: '{{ elasticsearch_user }}'
+    group: '{{ elasticsearch_group }}'
+    createhome: no
 
 - name: Check whether we have aleady installed the same version
   shell: if [ -e /usr/share/elasticsearch/lib/elasticsearch-{{ elasticsearch_version }}.jar ]; then echo yes; else echo no; fi;
@@ -32,22 +43,33 @@
   always_run: True
 
 - name: Download Elasticsearch deb if needed
-  get_url: url={{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb dest=/tmp/elasticsearch-{{ elasticsearch_version }}.deb mode=0440
+  get_url:
+    url: '{{ elasticsearch_download_url }}/elasticsearch-{{ elasticsearch_version }}.deb'
+    dest: /tmp/elasticsearch-{{ elasticsearch_version }}.deb
+    mode: 0440
   when: version_exists.stdout == 'no'
 
 - name: Uninstalling previous version if applicable
   shell: dpkg --remove elasticsearch
   when: version_exists.stdout == 'no'
-- file: path=/usr/share/elasticsearch state=absent
+
+- file:
+    path: /usr/share/elasticsearch
+    state: absent
   when: version_exists.stdout == 'no'
 
-# Install the deb
 - name: Install Elasticsearch deb
   shell: dpkg -i -E --force-confnew /tmp/elasticsearch-{{ elasticsearch_version }}.deb
   when: version_exists.stdout == 'no'
-- file: path=/usr/share/elasticsearch state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
 
-# Configure directories
+- name: Ensure correct permissions
+  file:
+    path: /usr/share/elasticsearch
+    state: directory
+    owner: '{{ elasticsearch_user }}'
+    group: '{{ elasticsearch_group }}'
+    recurse: yes
+
 - name: Configuring directories
   file: path={{ elasticsearch_log_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_log_dir is defined
@@ -62,21 +84,49 @@
 - file: path={{ elasticsearch_plugin_dir }} state=directory owner={{ elasticsearch_user }} group={{ elasticsearch_group }} recurse=yes
   when: elasticsearch_plugin_dir is defined
 
-# Configure open file limits
 - name: Configuring open file limits
-  lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}' insertafter=EOF line='{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+  lineinfile:
+    dest: /etc/security/limits.conf
+    regexp: '^{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
+    insertafter: EOF
+    line: '{{ elasticsearch_user }}     -    nofile    {{ elasticsearch_max_open_files }}'
   when: elasticsearch_max_open_files is defined
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/security/limits.conf regexp='^{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}' insertafter=EOF line='{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
+
+- lineinfile:
+    dest: /etc/security/limits.conf
+    regexp: '^{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
+    insertafter: EOF
+    line: '{{ elasticsearch_user }}     -    memlock   {{ elasticsearch_max_locked_memory }}'
   when: elasticsearch_max_locked_memory is defined
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/pam.d/su regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+
+- lineinfile:
+    dest: /etc/pam.d/su
+    regexp: '^session    required   pam_limits.so'
+    insertafter: EOF
+    line: 'session    required   pam_limits.so'
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/pam.d/common-session regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+
+- lineinfile:
+    dest: /etc/pam.d/common-session
+    regexp: '^session    required   pam_limits.so'
+    insertafter: EOF
+    line: 'session    required   pam_limits.so'
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/pam.d/common-session-noninteractive regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+
+- lineinfile:
+    dest: /etc/pam.d/common-session-noninteractive
+    regexp: '^session    required   pam_limits.so'
+    insertafter: EOF
+    line: 'session    required   pam_limits.so'
   notify: Restart Elasticsearch
-- lineinfile: dest=/etc/pam.d/sudo regexp='^session    required   pam_limits.so' insertafter=EOF line='session    required   pam_limits.so'
+
+- lineinfile:
+    dest: /etc/pam.d/sudo
+    regexp: '^session    required   pam_limits.so'
+    insertafter: EOF
+    line: 'session    required   pam_limits.so'
   notify: Restart Elasticsearch
 
 # Install Plugins with ES => 2.0
@@ -89,22 +139,35 @@
 
 # Install custom JARs
 - include: custom-jars.yml
-  when: (elasticsearch_custom_jars is defined)
+  when: elasticsearch_custom_jars is defined
 
 # Install Marvel Plugin
 
 # Configure Elasticsearch Node
 - name: Configuring Elasticsearch Node
-  template: src=elasticsearch.yml.j2 dest={{ elasticsearch_conf_dir }}/elasticsearch.yml owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
+  template:
+    src: elasticsearch.yml.j2
+    dest: '{{ elasticsearch_conf_dir }}/elasticsearch.yml'
+    owner: '{{ elasticsearch_user }}'
+    group: '{{ elasticsearch_group }}'
+    mode: 0644
   when: elasticsearch_conf_dir is defined
   notify: Restart Elasticsearch
 
-- template: src=elasticsearch.default.j2 dest=/etc/default/elasticsearch owner={{ elasticsearch_user }} group={{ elasticsearch_group }} mode=0644
+- template:
+    src: elasticsearch.default.j2
+    dest: /etc/default/elasticsearch
+    owner: '{{ elasticsearch_user }}'
+    group: '{{ elasticsearch_group }}'
+    mode: 0644
   notify: Restart Elasticsearch
 
 # Register Elasticsearch service to start on boot
 - name: Ensure Elasticsearch is started on boot
-  service: name=elasticsearch enabled={{ elasticsearch_service_startonboot }} state={{ elasticsearch_service_state }}
+  service:
+    name: elasticsearch
+    enabled: '{{ elasticsearch_service_startonboot }}'
+    state: '{{ elasticsearch_service_state }}'
 
 # Copy ES maintainance scripts to machine
 - name: Copy reroute script to machine

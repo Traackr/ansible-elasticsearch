@@ -17,17 +17,17 @@
   register: elasticsearch_installed_plugins
 
 - name: (ES2 mode) Removing Plugins if they exist
-  action: >
-    shell bin/plugin remove {{ item }}
-    chdir={{ elasticsearch_home_dir }}
+  shell: bin/plugin remove {{ item }}
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
   when: "'No plugin' not in item"
   with_items: '{{ elasticsearch_installed_plugins.stdout | from_yaml }}'
 
 # Loop through elasticsearch_plugins and install them
 - name: (ES2 mode) Installing Plugins by Name (use for official plugins within the elasticsearch repo)
-  action: >
-    shell bin/plugin install {{ item.name }}
-    chdir={{ elasticsearch_home_dir }}
+  shell: bin/plugin install {{ item.name }}
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
   when: item.url is undefined
   with_items: '{{ elasticsearch_plugins }}'
 
@@ -52,9 +52,9 @@
 # - elasticsearch_plugin_aws_region
 
 - name: (ES2 mode) Installing AWS Plugin
-  action: >
-    shell bin/plugin install cloud-aws
-    chdir={{ elasticsearch_home_dir }}
+  shell: bin/plugin install cloud-aws
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
   when: (elasticsearch_plugin_aws_version is defined)
 
 # Install Marvel (see http://www.elasticsearch.org/guide/en/marvel/current/)
@@ -71,9 +71,9 @@
 # - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
 - name: (ES2 mode) Installing Marvel Plugin
-  action: >
-    shell bin/plugin install elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
-    chdir={{ elasticsearch_home_dir }}
+  shell: bin/plugin install elasticsearch/marvel/{{ elasticsearch_plugin_marvel_version }}
+  args:
+    chdir: '{{ elasticsearch_home_dir }}'
   when: (elasticsearch_plugin_marvel_version is defined)
 
 # Fix permissions
@@ -95,4 +95,3 @@
 - name: Output installed ES2 plugins
   debug:
     msg: "{{ elasticsearch_plugin_list.stdout }}"
-

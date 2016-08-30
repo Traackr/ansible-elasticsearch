@@ -6,17 +6,21 @@
 # 'elasticsearch_custom_jars' in your playbook or inventory, such that:
 #
 # elasticsearch_custom_jars:
-#  - { uri: '<URL where JAR can be downloaded from: required>', filename: '<alternative name for final JAR if different from file downladed: leave blank to use same filename>', user: '<BASIC auth username: leave blank of not needed>', passwd: '<BASIC auth password: leave blank of not needed>' }
+#  - { uri: '<URL where JAR can be downloaded>', filename: '<alternative name for final JAR>', user: '<BASIC auth username>', passwd: '<BASIC auth password>' }
 #  - ...
 
-# Loop though elasticsearch_custom_jars and install them
-- name: Installing Custom JARs
-  action: >
-    get_url url={{ item.uri }}
-    url_username={{ item.user }} url_password={{ item.passwd }} dest="{{ elasticsearch_home_dir }}/lib/{{ item.filename }}"
+- name: Loop though elasticsearch_custom_jars and install them
+  get_url:
+    url: '{{ item.uri }}'
+    url_username: '{{ item.user }}'
+    url_password: '{{ item.passwd }}'
+    dest: '{{ elasticsearch_home_dir }}/lib/{{ item.filename }}'
   with_items: '{{ elasticsearch_custom_jars }}'
-# Fix permissions
-- file: >
-    path="{{ elasticsearch_home_dir }}/lib" state=directory
-    owner={{ elasticsearch_user }} group={{ elasticsearch_group }}
-    recurse=yes
+
+- name: Fix permissions
+  file:
+    path: "{{ elasticsearch_home_dir }}/lib"
+    state: directory
+    owner: '{{ elasticsearch_user }}'
+    group: '{{ elasticsearch_group }}'
+    recurse: yes
