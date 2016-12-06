@@ -9,7 +9,7 @@
     repo={{ item }}
     state=present
     update_cache=yes
-  with_items: elasticsearch_apt_repos
+  with_items: "{{ elasticsearch_apt_repos }}"
 
 - name: java | Install dependencies
   apt:
