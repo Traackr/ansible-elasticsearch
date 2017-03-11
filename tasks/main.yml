@@ -15,6 +15,10 @@
 - include: aws.yml
   when: (elasticsearch_plugin_aws_version is defined)
 
+# Install GCE Plugin
+- include: gce.yml
+  when: (elasticsearch_plugin_gce_version is defined)
+
 # Install Other Generic Plugins
 - include: plugins.yml
   when: (elasticsearch_plugins is defined)
