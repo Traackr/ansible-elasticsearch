@@ -27,5 +27,9 @@
 - include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
 
+# Setup Shield
+- include: shield.yml
+  when: (elasticsearch_shield_enabled is defined and elasticsearch_shield_enabled == "true")
+
 # Always run post-run tasks
 - include: post-run.yml

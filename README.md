@@ -12,6 +12,7 @@ This is an [Ansible](http://www.ansibleworks.com/) playbook for [Elasticsearch](
 - Support for installing custom JARs in the Elasticsearch classpath (e.g. custom Lucene Similarity JAR)
 - Support for installing the [Sematext SPM](http://www.sematext.com/spm/) monitor
 - Support for installing the [Marvel](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
+- Support for installing the [Shield](http://www.elasticsearch.org/guide/en/marvel/current/) plugin
 
 ## Installing
 
@@ -68,7 +69,7 @@ spm_client_token=<your SPM token here>
 ```
 
 ### Edit your vars/my-vars.yml
-See `vars/sample.yml` and `vars/vagrant.yml` for example variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to defile in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
+See `vars/sample.yml` and `vars/vagrant.yml` for example variable files. These are the files where you specify Elasticsearch settings and apply certain features such as plugins, custom JARs or monitoring. The best way to enable configurations is to look at `templates/elasticsearch.yml.j2` and see which variables you want to define in your `vars/my-vars.yml`. See below for configurations regarding EC2, plugins and custom JARs.
 
 ### Edit your my-playbook-main.yml
 Example `my-playbook-main.yml`:
@@ -189,6 +190,37 @@ The following variables provide configuration for the plugin. More options may b
 - elasticsearch_plugin_marvel_agent_interval
 - elasticsearch_plugin_marvel_agent_exporter_es_index_timeformat
 
+
+### Configuring Shield
+The following variables need to be defined in your playbook or inventory:
+
+- elasticsearch_plugin_shield_enabled
+
+The following variables provide configuration for the plugin. More options may be available in the future (see [https://www.elastic.co/guide/en/shield/current/reference.html](https://www.elastic.co/guide/en/shield/current/reference.html)):
+- elasticsearch_plugin_shield_ssl_keystore_path
+- elasticsearch_plugin_shield_ssl_keystore_password
+- elasticsearch_plugin_shield_ssl_keystore_key_password
+- elasticsearch_plugin_shield_ssl_hostname_verification
+- elasticsearch_plugin_shield_transport_ssl
+- elasticsearch_plugin_shield_http_ssl
+- elasticsearch_plugin_shield_audit_enabled
+- elasticsearch_plugin_shield_realms
+- elasticsearch_plugin_shield_realms_esusers
+  + order: 0
+  + enabled: "false"
+
+- elasticsearch_plugin_shield_realms_active_directory
+  + order: 1
+  + domain_name: example.com
+  + unmapped_groups_as_roles: "true"
+  + url: ldap://ad.microsoft.com
+  + enabled: "true"
+
+- elasticsearch_esusers
+  + - {username:demouser, password: mypass, role: myrole}
+
+ - elasticsearch_shield_files: path to folder with Shield configuration files which will be copied into /etc/elasticsearch/shield
+
 ## Disable Java installation
 
 If you prefer to skip the built-in installation of the Oracle JRE, use the `elasticsearch_install_java` flag:
@@ -250,3 +282,5 @@ MIT
 # Author Information
 
 George Stathis - gstathis [at] traackr.com
+Mats Olsen molsen [at] comperiosearch.com
+Christoffer Vig cvig [at] comperiosearch.com

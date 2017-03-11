@@ -1,0 +1,12 @@
+- name: Delete user from esuser realm if it exists
+  action: >
+    shell bin/shield/esusers userdel {{ item.username }}
+    chdir={{ elasticsearch_home_dir }}
+  ignore_errors: yes
+  with_items: elasticsearch_esusers
+- name: Add user to esuser realm
+  action: >
+    shell bin/shield/esusers useradd "{{ item.username }}" -p "{{ item.password }}" -r "{{ item.role }}"
+    chdir={{ elasticsearch_home_dir }}
+  ignore_errors: no
+  with_items: elasticsearch_esusers
