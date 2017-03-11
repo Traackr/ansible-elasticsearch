@@ -4,28 +4,45 @@
 # Install Java
 - include: java.yml
   when: elasticsearch_install_java
+  tags:
+      - java
 
 # Configure timezome
 - include: timezone.yml
+  tags:
+      - timezone
 
 # Install and configure elasticsearch
 - include: elastic-install.yml
+  tags:
+      - install
 
 # Install AWS Plugin
 - include: aws.yml
   when: (elasticsearch_plugin_aws_version is defined)
+  tags: 
+      - aws
+      - plugins
 
 # Install Other Generic Plugins
 - include: plugins.yml
   when: (elasticsearch_plugins is defined)
+  tags: 
+      - plugins
 
 # Install custom JARs
 - include: custom-jars.yml
   when: (elasticsearch_custom_jars is defined)
+  tags: 
+      - java
+      - custom-jars
 
 # Install Marvel Plugin
 - include: marvel.yml
   when: (elasticsearch_plugin_marvel_version is defined)
+  tags: 
+      - marvel
+      - plugins
 
 # Always run post-run tasks
 - include: post-run.yml

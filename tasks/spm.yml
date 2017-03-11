@@ -2,9 +2,10 @@
 # SPM Tasks (see http://sematext.com/spm/)
 
 - name: spm | Install Collectd
-  apt:
-    pkg=collectd
-    state=present
+  action: >
+      {{ansible_pkg_mgr}}
+      pkg=collectd
+      state=present
 
   # TODO: Make idempotent
 - name: spm |  Downloading and running package

@@ -35,7 +35,7 @@
   with_items: elasticsearch_plugins
   ignore_errors: yes
 - name: plugins | Installing Plugins
-  shell: bin/plugin -install {{ item.name }} {{ '-url ' + item.url if item.url is defined else '' }}
+  shell: bin/plugin install {{ item.name }} {{ '-url ' + item.url if item.url is defined else '' }}
     chdir={{ elasticsearch_home_dir }}
   when: item.download_only is not defined
   with_items: elasticsearch_plugins
