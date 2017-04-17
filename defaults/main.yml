@@ -7,7 +7,7 @@ elasticsearch_download_url: https://download.elasticsearch.org/elasticsearch/ela
 elasticsearch_version: 1.7.3
 elasticsearch_apt_repos:
   - 'ppa:webupd8team/java'
-elasticsearch_apt_java_package: oracle-java7-installer
+elasticsearch_apt_java_package: oracle-java8-installer
 elasticsearch_apt_dependencies:
   - htop
   - ntp
@@ -27,5 +27,13 @@ elasticsearch_timezone: "Etc/UTC"  # Default to UTC
 elasticsearch_service_state: started
 
 # Non-Elasticsearch Defaults
+elasticsearch_timezone: UTC
 apt_cache_valid_time: 300 # seconds between "apt-get update" calls.
 elasticsearch_install_java: "true"
+#elasticsearch_repo_dir: path to snapshot restore location
+#uncomment to enable shield
+#elasticsearch_plugin_shield_enabled: "true"
+
+elasticsearch_repo_name: backups
+elasticsearch_backup_host: http://localhost:9200
+

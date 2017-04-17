@@ -6,7 +6,7 @@ elasticsearch_apt_java_package: oracle-java8-installer
 elasticsearch_java_home: /usr/lib/jvm/java-8-oracle
 elasticsearch_heap_size: 1g
 elasticsearch_max_open_files: 65535
-elasticsearch_timezone: "America/New_York"
+elasticsearch_timezone: "Europe/Oslo"
 elasticsearch_node_max_local_storage_nodes: 1
 elasticsearch_index_mapper_dynamic: "true"
 elasticsearch_memory_bootstrap_mlockall: "true"

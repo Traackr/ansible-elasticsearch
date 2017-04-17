@@ -1,0 +1,17 @@
+---
+ - name: check backup folder exists.
+   sudo: true
+   file: path="{{elasticsearch_repo_dir}}" state=directory owner={{elasticsearch_user}} group={{elasticsearch_group}} recurse=yes
+
+ - name: install pip
+   sudo: true
+   apt: name=python-pip state=present
+
+ - name: install elasticsearch pip
+   pip: name=elasticsearch state=present
+
+ - name: check elasticsearch repository directory exists
+   file: path={{elasticsearch_repo_dir}} state=directory owner={{elasticsearch_user}}
+
+ - name: create es backups
+   es_snapshot_restore: elasticsearch_host={{elasticsearch_backup_host}} repository_path="{{elasticsearch_repo_dir}}" repository_name={{elasticsearch_repo_name }}  snapshot_name="{{elasticsearch_snapshot_name}}" snapshot_indices="{{elasticsearch_snapshot_indices | default(omit) }}" mode=snapshot state=present
